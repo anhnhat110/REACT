@@ -1,0 +1,103 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+  --primary: #bc4123;
+  --secondary: #2b3452;
+}
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Poppins";
+  background: var(--secondary);
+}
+* {
+  color: #fff;
+  margin: 0;
+}
+p {
+  margin: 20px 0;
+}
+button {
+  border: 0;
+  padding: 8px;
+  border-radius: 4px;
+  color: white;
+  background: var(--primary);
+  cursor: pointer;
+} */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    background-color: #181c1f;
+    color: #bdd1d4;
+    margin: 2rem;
+  }
+  
+  header {
+    margin: 2rem 0;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  header img {
+    width: 3rem;
+    object-fit: contain;
+  }
+  
+  header h1 {
+    margin: 0;
+    color: #FAE0C7;
+  }
+  
+  header p {
+    margin: 0;
+    color: #FAE0C7;
+  }
+  
+  #tabs {
+    max-width: 32rem;
+    margin: 2rem 0;
+    overflow: hidden;
+  }
+  
+  #tabs menu {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.25rem;
+  }
+  
+  #tabs button {
+    font: inherit;
+    font-size: 0.85rem;
+    background-color: #282f33;
+    border: none;
+    border-bottom-color: #FAE0C7;
+    color: #e0eff1;
+    border-radius: 4px 4px 0 0;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+  }
+  
+  #tabs button:hover,
+  #tabs button.active {
+    background-color: #FAE0C7;
+    color: #273133;
+  }
+  
+  #tab-content {
+    background-color: #2d3942;
+    border-radius: 0 4px 4px 4px;
+    padding: 1rem;
+  }
+  
+  #tab-content li {
+    margin: 0.75rem 0;
+  }
+  
+  
