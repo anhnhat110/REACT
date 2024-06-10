@@ -1,0 +1,12 @@
+ul, ol, h2 {
+    list-style-type: none;
+    padding: 0; /* Optional: Removes padding */
+    margin: 0; /* Optional: Removes margin */
+  }
+.title {
+    text-align: center;
+}
+ol {
+    display: flex;
+    justify-content: space-between;
+}
