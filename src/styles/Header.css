@@ -1,0 +1,28 @@
+.col {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+img {
+  width: 5rem;
+}
+.search {
+  margin-left: 12rem;
+}
+.icon {
+  margin-left: 1rem;
+}
+submit {
+  background-color: black;
+}
+.background { 
+  width:80rem;
+  max-height: 40rem;
+  margin-left: 4rem;
+}
+.title {
+  margin-left: 2rem ;
+}
+.Slide h3 {
+  color: white
+}

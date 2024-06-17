@@ -1,0 +1,47 @@
+.type {
+  color: #5a6168;
+}
+.men {
+  display: flex;
+}
+.product-card {
+  position: relative;
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1); /* Zoom ảnh khi di chuyển chuột vào */
+}
+
+.product-info {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Nền màu đen mờ */
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center; /* Canh giữa nội dung */
+  width: 80%; /* Đảm bảo phần thông tin không quá rộng */
+  opacity: 0; /* Bắt đầu với độ mờ */
+  transition: opacity 0.3s ease; /* Hiệu ứng chuyển tiếp */
+}
+
+.product-card:hover .product-info {
+  opacity: 1; /* Hiển thị thông tin khi di chuyển chuột vào */
+}
+.name {
+  color: #E6E6DD;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-style:oblique
+}
