@@ -2,7 +2,7 @@ import bg1 from "../assets/background1.jpg";
 import bg2 from "../assets/background2.jpg";
 import bg3 from "../assets/background3.jpg";
 import { Carousel } from "react-bootstrap";
-import "../styles/Header.css"
+import "../styles/Slide.css"
 
 export default function Slide() {
   return (

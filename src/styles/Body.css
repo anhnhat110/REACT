@@ -1,11 +1,16 @@
+.title {
+  margin-top: 1rem;
+}
 .type {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   color: #5a6168;
 }
-.men {
+.products {
   display: flex;
 }
 .product-card {
-  position: relative;
+  position:relative;
   text-align: center;
   color: white;
   margin-bottom: 20px;
@@ -20,21 +25,15 @@
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.1); /* Zoom ảnh khi di chuyển chuột vào */
+  transform:scale(1.05) /* Zoom ảnh khi di chuyển chuột vào */
 }
 
 .product-info {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.5); /* Nền màu đen mờ */
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center; /* Canh giữa nội dung */
-  width: 80%; /* Đảm bảo phần thông tin không quá rộng */
-  opacity: 0; /* Bắt đầu với độ mờ */
-  transition: opacity 0.3s ease; /* Hiệu ứng chuyển tiếp */
+  margin-top: 1rem;
+  color:black
+}
+.product-info .name {
+  color:black;
 }
 
 .product-card:hover .product-info {
@@ -44,4 +43,17 @@
   color: #E6E6DD;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-style:oblique
+}
+.heart-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 1.3rem;
+  background-color: transparent; /* Để nút không có nền */
+  border: none; /* Để nút không có viền */
+  cursor: pointer; /* Để con trỏ thành dạng pointer khi hover vào nút */
+}
+.loading {
+  display: flex;
+  justify-content: center; 
+  margin-bottom: 2rem;
 }
