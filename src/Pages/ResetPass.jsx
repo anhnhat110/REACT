@@ -1,9 +1,9 @@
-import { Header } from "../Component/Header";
+import Footer from "../Component/Footer";
 export default function ResetPass() {
   return (
     <div>
-      <Header/>
       <h1>Resetpass</h1>
+      <Footer/>
     </div>
   );
 }

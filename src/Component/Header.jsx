@@ -1,3 +1,4 @@
+import { useState, useContext } from "react";
 import {
   Container,
   Navbar,
@@ -6,26 +7,33 @@ import {
   Row,
   Col,
   Button,
-  // Image,
+  Offcanvas,
 } from "react-bootstrap";
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
 import { NavLink } from "react-router-dom";
-import {
-  User,
-  ShoppingCart,
-  Shop,
-  SearchNormal,
-  HeartTick,
-} from "iconsax-react";
+import { CartContext } from "../Component/CartContext";
+import { ShoppingCart as CartIcon,SearchNormal,HeartTick,User,Shop } from "iconsax-react"; // Assuming correct import for iconsax-react
+import ShoppingCart from "./Shoppingcart";
 
 export function Header() {
+  const [show, setShow] = useState(false);
+  const { cartItems } = useContext(CartContext);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const toggleShow = () => {
+    setShow((s) => !s);
+  };
+
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand>
-            <img src={maverickLogo} />
+            <img src={maverickLogo} alt="Maverick Logo" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -45,6 +53,7 @@ export function Header() {
               <Nav.Link as={NavLink} to="/girls" className="nav-button">
                 Girls
               </Nav.Link>
+
               <Form className="search">
                 <Row>
                   <Col xs="auto">
@@ -62,23 +71,41 @@ export function Header() {
                   </Col>
                 </Row>
               </Form>
-              <Nav.Link as={NavLink} to="/user" className="icon">
+              <Button variant="light" as={NavLink} to="/login" className="icon">
                 <User size="18" color="Black" variant="Bold" />
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/store" className="icon">
+              </Button>
+              <Button variant="light" as={NavLink} to="/store">
                 <Shop size="18" color="Black" variant="Bold" />
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/heartbag" className="icon">
+              </Button>
+              <Button variant="light" as={NavLink} to="/heartbag">
                 <HeartTick size="18" color="Black" variant="Bold" />
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/shoppingcart" className="icon">
-                <ShoppingCart size="18" color="Black" variant="Bold" />
-              </Nav.Link>
+              </Button>
+              <Button
+                variant="light"
+                onClick={toggleShow}
+                className="position-relative"
+              >
+                <span className="shopping-item">{cartItems.length}</span>
+                <CartIcon size="18" color="Black" variant="Bold" />
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* <Image className="bg1" src={background1} fluid /> */}
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        scroll={true}
+        backdrop={true}
+        placement="end"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Shopping Cart</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <ShoppingCart/>
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 }

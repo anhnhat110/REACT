@@ -1,13 +1,14 @@
-import { Header } from "../Component/Header";
 import Body from "../Component/Body";
 import homegirlsApi from "../API/HomegirlsAPI";
 import Slide from "../Component/Slide";
-export default function Boys() {
+import Footer from "../Component/Footer";
+export default function Girls() {
+  const productDetailPath = "/product-girls"
   return (
     <div>
-      <Header/>
       <Slide/>
-      <Body API={homegirlsApi} collection="Girls collection" title="For girls"/>
+      <Body API={homegirlsApi} collection="Girls collection" title="For girls" productDetailPath={productDetailPath}/>
+      <Footer/>
     </div>
   );
 }

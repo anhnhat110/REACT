@@ -1,14 +1,15 @@
-import { Header } from "../Component/Header";
 import Body from "../Component/Body";
 import Slide from "../Component/Slide"
 import homemenApi from "../API/HomemenAPI";
+import Footer from "../Component/Footer";
 
 export default function Men() {
+  const productDetailPath = "/product-men"
   return (
     <div>
-      <Header />
       <Slide /> 
-      <Body API={homemenApi} collection="Men collection" title="For men"/>
+      <Body API={homemenApi} collection="Men collection" title="For men" productDetailPath={productDetailPath}/>
+      <Footer/>
     </div>
   );
 }

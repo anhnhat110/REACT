@@ -57,3 +57,47 @@
   justify-content: center; 
   margin-bottom: 2rem;
 }
+.button-size {
+  margin-right: 1rem ;
+  display: inline-block;
+}
+.detail h6 {
+  margin-bottom: 1rem;
+}
+.detail p { 
+  margin-top: 1rem;
+}
+.Checkout { 
+  margin-top: 2rem;
+  margin-left: 70rem;
+  margin-bottom: 2rem;
+}
+.cart {
+  font-size: 12px;
+}
+.cart img {
+  max-width: 100%;
+  height: auto;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-controls .quantity {
+  margin: 0 10px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.button-shopping,
+.button-checkout {
+  margin-left: 10px;
+}
+
+.cart p {
+  margin: 0;
+}

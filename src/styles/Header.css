@@ -10,7 +10,7 @@ img {
   margin-left: 12rem;
 }
 .icon {
-  margin-left: 0.8rem;
+  margin-left: 2rem;
 }
 submit {
   background-color: black;
@@ -33,4 +33,23 @@ submit {
 .nav-button:hover {
   background-color: #E6E6DD;
   color: white;
+}
+.arrow {
+  margin-left: 11rem;
+}
+.position-relative {
+  position: relative;
+}
+
+.shopping-item {
+  position: absolute;
+  top: -10px; /* Điều chỉnh khoảng cách so với đỉnh nút */
+  right: -10px; /* Điều chỉnh khoảng cách so với cạnh phải nút */
+  background-color: red; /* Màu nền cho badge */
+  color: white; /* Màu chữ cho badge */
+  border-radius: 50%; /* Hình tròn */
+  padding: 5px 10px; /* Khoảng đệm cho badge */
+  font-size: 12px; /* Kích thước chữ */
+  line-height: 1; /* Chiều cao dòng */
+  text-align: center;
 }
