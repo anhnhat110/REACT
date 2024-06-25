@@ -1,13 +1,13 @@
 
 import ProductDetail from '../Component/ProductDetail'
-import menApi from '../API/MenAPI'
 import Body from '../Component/Body'
 export default function DetailMen() {
-  const url="men"
+  const url="products"
+    const productDetailPath = "/product-men"
   return (
     <div>
       <ProductDetail url={url}/>
-      <Body API={menApi} collection="Maybe you liked" title="For men" />
+      <Body API={'http://localhost:1338/api/products?populate=*'} collection="Maybe you liked" title="For men" productDetailPath={productDetailPath} cat="men"/>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import Body from "../Component/Body";
-import homeboysApi from "../API/HomeboysAPI";
 import Slide from "../Component/Slide";
 import Footer from "../Component/Footer";
 
@@ -8,7 +7,8 @@ export default function Boys() {
   return (
     <div>
       <Slide />
-      <Body API={homeboysApi} collection="Boys collection" title="For boys" productDetailPath={productDetailPath} />
+      <Body API={'http://localhost:1338/api/products?populate=*'} collection="Boys collection" title="For boys" productDetailPath={productDetailPath} cat= "boys"/>
+
       <Footer/>
     </div>
   );

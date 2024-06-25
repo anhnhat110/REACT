@@ -7,7 +7,7 @@ import Footer from "../Component/Footer";
 
 export default function Register() {
   const initialUser = { username: "", password: "", email: "" };
-  const [user, setUser] = useState(initialUser);  
+  const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
   const handleChange = (e) =>
@@ -90,7 +90,7 @@ export default function Register() {
                       </Button>
                       <p className="small fw-bold mt-3">
                         Already have an account?{" "}
-                        <NavLink to="/user" className="link-primary">
+                        <NavLink to="/login" className="link-primary">
                           Login
                         </NavLink>
                       </p>
@@ -101,9 +101,9 @@ export default function Register() {
             </Col>
           </Row>
         </Container>
-        <Footer/>
         <Outlet />
       </section>
+      <Footer />
     </div>
   );
 }

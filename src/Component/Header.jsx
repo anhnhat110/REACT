@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import {
   Container,
   Navbar,
@@ -7,25 +7,56 @@ import {
   Row,
   Col,
   Button,
-  Offcanvas,
+  Overlay,
+  Popover,
+  Image,
 } from "react-bootstrap";
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
 import { NavLink } from "react-router-dom";
 import { CartContext } from "../Component/CartContext";
-import { ShoppingCart as CartIcon,SearchNormal,HeartTick,User,Shop } from "iconsax-react"; // Assuming correct import for iconsax-react
-import ShoppingCart from "./Shoppingcart";
+import {
+  ShoppingCart as CartIcon,
+  SearchNormal,
+  HeartTick,
+  User,
+  Shop,
+  ArrowCircleRight,
+} from "iconsax-react";
+import ShoppingCart from "./Shoppingcart"; // Assuming ShoppingCart component displays cart items
 
 export function Header() {
-  const [show, setShow] = useState(false);
   const { cartItems } = useContext(CartContext);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const target = useRef(null);
 
-  const handleClose = () => {
-    setShow(false);
+  const handleMouseEnter = () => {
+    setShowOverlay(true);
   };
 
-  const toggleShow = () => {
-    setShow((s) => !s);
+  const handleMouseLeave = () => {
+    setShowOverlay(false);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = async (event) => {
+    event.preventDefault();
+    if (searchQuery.trim() === "") return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:1338/products?_q=${searchQuery}`
+      );
+      const results = await response.json();
+      setSearchResults(results);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
 
   return (
@@ -54,7 +85,7 @@ export function Header() {
                 Girls
               </Nav.Link>
 
-              <Form className="search">
+              <Form className="search" onSubmit={handleSearchSubmit}>
                 <Row>
                   <Col xs="auto">
                     <Form.Control
@@ -62,10 +93,12 @@ export function Header() {
                       placeholder="Search"
                       style={{ width: "300px" }}
                       className="search-input mr-sm-2"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
                     />
                   </Col>
                   <Col xs="auto">
-                    <Button variant="secondary">
+                    <Button variant="secondary" type="submit">
                       <SearchNormal size="18" color="white" variant="Outline" />
                     </Button>
                   </Col>
@@ -74,7 +107,7 @@ export function Header() {
               <Button variant="light" as={NavLink} to="/login" className="icon">
                 <User size="18" color="Black" variant="Bold" />
               </Button>
-              <Button variant="light" as={NavLink} to="/store">
+              <Button variant="light" as={NavLink} to="/checkout">
                 <Shop size="18" color="Black" variant="Bold" />
               </Button>
               <Button variant="light" as={NavLink} to="/heartbag">
@@ -82,7 +115,9 @@ export function Header() {
               </Button>
               <Button
                 variant="light"
-                onClick={toggleShow}
+                ref={target}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 className="position-relative"
               >
                 <span className="shopping-item">{cartItems.length}</span>
@@ -92,20 +127,45 @@ export function Header() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Offcanvas
-        show={show}
-        onHide={handleClose}
-        scroll={true}
-        backdrop={true}
-        placement="end"
+      <Overlay
+        show={showOverlay}
+        target={target.current}
+        placement="bottom"
+        containerPadding={20}
+        className="custom-overlay"
       >
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Shopping Cart</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <ShoppingCart/>
-        </Offcanvas.Body>
-      </Offcanvas>
+        <Popover
+          id="popover-contained"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          style={{ width: '400px', maxWidth: '400px' }}
+        >
+          <Popover.Header as="h3" className="popover-header">
+            Shopping Cart
+              <ArrowCircleRight size="20" color="Black" className="arrow" />
+          </Popover.Header>
+          <Popover.Body className="popover-body">
+            <ShoppingCart />
+          </Popover.Body>
+        </Popover>
+      </Overlay>
+      {searchResults.length > 0 && (
+        <Container className="search-results">
+          <h2>Search Results</h2>
+          <Row>
+            {searchResults.map((result) => (
+              <Col key={result.id} sm={4}>
+                <div className="search-result-item">
+                  <Image src={`http://localhost:1338${result.image}`} thumbnail />
+                  <h5>{result.name}</h5>
+                  <p>{result.description}</p>
+                  <p>{result.price.toLocaleString()} đ</p>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      )}
     </>
   );
 }

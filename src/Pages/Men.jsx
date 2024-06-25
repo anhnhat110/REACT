@@ -1,6 +1,5 @@
 import Body from "../Component/Body";
 import Slide from "../Component/Slide"
-import homemenApi from "../API/HomemenAPI";
 import Footer from "../Component/Footer";
 
 export default function Men() {
@@ -8,7 +7,7 @@ export default function Men() {
   return (
     <div>
       <Slide /> 
-      <Body API={homemenApi} collection="Men collection" title="For men" productDetailPath={productDetailPath}/>
+      <Body API={'http://localhost:1338/api/products?populate=*'} collection="Men collection" title="For men" productDetailPath={productDetailPath} cat="men"/>
       <Footer/>
     </div>
   );

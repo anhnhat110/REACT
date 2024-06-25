@@ -1,52 +1,52 @@
 import "../styles/Body.css";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Heart } from "iconsax-react";
 import { Link } from "react-router-dom";
 
-export default function Body({ API, title, collection, productDetailPath }) {
+export default function Body({ API, title, collection, productDetailPath,cat}) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
-    // Fetch data from API
-    axios.get(API)
+    axios
+      .get(API)
       .then((response) => {
-        setData(response.data.data);
+        const filteredData = response.data.data.filter(
+          (item) =>
+            item.attributes.categories.data.some(
+              (category) => category.attributes.name === cat
+            )
+        );
+        setData(filteredData);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       });
   }, [API]);
-
-  useEffect(() => {
-    // Load liked status from localStorage if available
-    const savedLikes = JSON.parse(localStorage.getItem('likedProducts')) || {};
-    const newData = data.map(item => ({
-      ...item,
-      liked: savedLikes[item.id] || false  // Set liked status from localStorage or default to false
-    }));
-    setData(newData);
-  }, []); // Run once on mount
 
   const handleShowMore = () => {
     setVisibleCount(visibleCount + 8);
   };
 
   const handleLiked = (id) => {
-    const newData = data.map(item => {
+    const newData = data.map((item) => {
       if (item.id === id) {
         const newLiked = !item.liked;
         // Update local state
         item.liked = newLiked;
         // Update localStorage
-        const savedLikes = JSON.parse(localStorage.getItem('likedProducts')) || {};
-        localStorage.setItem('likedProducts', JSON.stringify({
-          ...savedLikes,
-          [id]: newLiked
-        }));
+        const savedLikes =
+          JSON.parse(localStorage.getItem("likedProducts")) || {};
+        localStorage.setItem(
+          "likedProducts",
+          JSON.stringify({
+            ...savedLikes,
+            [id]: newLiked,
+          })
+        );
       }
       return item;
     });
@@ -60,7 +60,7 @@ export default function Body({ API, title, collection, productDetailPath }) {
       <Row className="products">
         {data.slice(0, visibleCount).map((d, i) => (
           <Col key={i} sm={6} md={3} className="product-card">
-            <Link to={`${productDetailPath}/${d.id}`}>
+            <Link to={`${productDetailPath}/${d.id}`} onClick={() => window.scrollTo(0, 0)} >
               {d.attributes.image && d.attributes.image.data.length > 0 && (
                 <img
                   className="product-image"
@@ -69,19 +69,34 @@ export default function Body({ API, title, collection, productDetailPath }) {
                 />
               )}
             </Link>
-            <Button onClick={() => handleLiked(d.id)} className="heart-button" variant="light" size="sm">
-              <Heart size="20" variant="Bold" color={d.liked ? "red" : "black"} />
+            <Button
+              onClick={() => handleLiked(d.id)}
+              className="heart-button"
+              variant="light"
+              size="sm"
+            >
+              <Heart
+                size="20"
+                variant="Bold"
+                color={d.liked ? "red" : "black"}
+              />
             </Button>
             <div className="product-info">
               <div className="name">{d.attributes.name}</div>
-              <div>Price: {Number(d.attributes.price).toLocaleString()} VND</div>
+              <div>
+                Price: {Number(d.attributes.price).toLocaleString()} VND
+              </div>
             </div>
           </Col>
         ))}
       </Row>
       <div className="loading">
         {visibleCount < data.length && (
-          <Button variant="secondary" onClick={handleShowMore} className="show-more-button">
+          <Button
+            variant="secondary"
+            onClick={handleShowMore}
+            className="show-more-button"
+          >
             See more
           </Button>
         )}
@@ -95,4 +110,5 @@ Body.propTypes = {
   title: PropTypes.string.isRequired,
   collection: PropTypes.string.isRequired,
   productDetailPath: PropTypes.string.isRequired,
+  cat: PropTypes.string.isRequired
 };

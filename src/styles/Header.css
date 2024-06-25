@@ -35,7 +35,7 @@ submit {
   color: white;
 }
 .arrow {
-  margin-left: 11rem;
+  margin-left: 15rem;
 }
 .position-relative {
   position: relative;
@@ -52,4 +52,56 @@ submit {
   font-size: 12px; /* Kích thước chữ */
   line-height: 1; /* Chiều cao dòng */
   text-align: center;
+}
+.cart-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+}
+
+.cart-item-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.cart-item-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cart-item-details {
+  font-size: 12px;
+  color: #757575;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity {
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+.cart-item-price {
+  font-size: 12px;
+ font-weight: bold;
+}
+
+.total-price {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.button-shopping,
+.button-checkout {
+  margin: 5px;
+}
+
+.custom-checkout-btn {
+  display: block;
+  width: 100%;
+}
+.cancel {
+  margin-left: 1rem;
 }

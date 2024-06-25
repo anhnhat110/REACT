@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import axios from "axios";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import "../styles/Body.css";
 import { CartContext } from "../Component/CartContext";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetail = ({ url }) => {
   const { id } = useParams();
@@ -11,40 +12,39 @@ const ProductDetail = ({ url }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useContext(CartContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:1338/api/${url}/${id}?populate=*`)
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:1338/api/${url}/${id}?populate=*`);
         setData(response.data.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching the product details:", error);
-      });
+      }
+    };
+    fetchData();
   }, [id, url]);
+
+  const handleAddToCart = () => {
+    if (selectedSize) {
+      addToCart({
+        id,
+        name: data.attributes.name,
+        price: data.attributes.price,
+        size: selectedSize,
+        quantity: parseInt(quantity, 10),
+        image: data.attributes.image.data[0].attributes.url,
+      });
+    } else {
+      alert("Please select a size.");
+    }
+  };
 
   if (!data) {
     return <div>Loading...</div>;
   }
 
   const { attributes } = data;
-
-  const handleAddToCart = () => {
-    if (selectedSize) {
-      addToCart({
-        id,
-        name: attributes.name,
-        price: attributes.price,
-        size: selectedSize,
-        quantity: parseInt(quantity, 10),
-        image: attributes.image.data[0].attributes.url,
-      });
-    
-    } else {
-      alert("Please select a size.");
-    }
-  };
 
   return (
     <Container>
@@ -108,5 +108,8 @@ const ProductDetail = ({ url }) => {
     </Container>
   );
 };
+ProductDetail.propTypes = {
+  url: PropTypes.string.isRequired,
+}
 
 export default ProductDetail;
