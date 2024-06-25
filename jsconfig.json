@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node", // Change to "node" if "nodenext" is not appropriate
+    "target": "ES2021",         // Ensure your environment supports ES2021
+    "checkJs": true,
+    "allowJs": true
+  },
+  "include": ["./src/**/*.js"],  // Include all JavaScript files in the "src" directory
+  "exclude": ["node_modules"]    // Exclude the "node_modules" directory
+}

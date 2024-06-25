@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "product",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 99,
+      "minLength": 1
+    },
+    "price": {
+      "type": "biginteger",
+      "required": true
+    },
+    "quantity": {
+      "type": "integer",
+      "max": 50,
+      "min": 1,
+      "required": true
+    },
+    "size": {
+      "type": "json",
+      "required": true
+    },
+    "color": {
+      "type": "json",
+      "required": true
+    },
+    "liked": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "mappedBy": "products"
+    }
+  }
+}
