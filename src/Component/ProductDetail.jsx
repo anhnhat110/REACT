@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { CartContext } from "../Component/CartContext";
+import { FavContext } from "./FavContext"; // Đường dẫn của FavContext
+import { Heart } from "iconsax-react";
 import 'react-toastify/dist/ReactToastify.css';
+
 
 const ProductDetail = ({ url }) => {
   const { id } = useParams();
@@ -12,6 +15,7 @@ const ProductDetail = ({ url }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useContext(CartContext);
+  const { favItems, addToFav, removeFromFav } = useContext(FavContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +44,21 @@ const ProductDetail = ({ url }) => {
     }
   };
 
+  const handleLiked = (item) => {
+    const isFav = favItems.some(favItem => favItem.id === item.id);
+    const product = {
+      id: item.id,
+      name: item.attributes.name,
+      image: item.attributes.image?.data[0]?.attributes.url,
+      price: item.attributes.price,
+    };
+    if (isFav) {
+      removeFromFav(item.id);
+    } else {
+      addToFav(product);
+    }
+  };
+
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -59,7 +78,21 @@ const ProductDetail = ({ url }) => {
           )}
         </Col>
         <Col md={6} className="detail">
-          <h1>{attributes.name}</h1>
+          <div className="product-title">
+            <h1>{attributes.name}</h1>
+            <Button
+              onClick={() => handleLiked(data)}
+              className="heart-button-detail"
+              variant="light"
+              size="sm"
+            >
+              <Heart
+                size="24"
+                variant="Bold"
+                color={favItems.some(favItem => favItem.id === data.id) ? "red" : "black"}
+              />
+            </Button>
+          </div>
           <p>{attributes.description}</p>
           <h6>Price: {Number(attributes.price).toLocaleString()} VND</h6>
           <div>
@@ -110,6 +143,6 @@ const ProductDetail = ({ url }) => {
 };
 ProductDetail.propTypes = {
   url: PropTypes.string.isRequired,
-}
+};
 
 export default ProductDetail;

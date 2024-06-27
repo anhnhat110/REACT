@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../Component/CartContext";
 import {
   ShoppingCart as CartIcon,
@@ -24,13 +24,18 @@ import {
   ArrowCircleRight,
 } from "iconsax-react";
 import ShoppingCart from "./Shoppingcart"; // Assuming ShoppingCart component displays cart items
+import Search from "./Search";
+import axios from "axios";
 
 export function Header() {
   const { cartItems } = useContext(CartContext);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [query, setQuery] = useState("");
+
   const target = useRef(null);
+  const navigate = useNavigate();
+ 
+
 
   const handleMouseEnter = () => {
     setShowOverlay(true);
@@ -39,25 +44,24 @@ export function Header() {
   const handleMouseLeave = () => {
     setShowOverlay(false);
   };
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = async (event) => {
-    event.preventDefault();
-    if (searchQuery.trim() === "") return;
-
+  const searchProducts = async () => {
+    
     try {
-      const response = await fetch(
-        `http://localhost:1338/products?_q=${searchQuery}`
-      );
-      const results = await response.json();
-      setSearchResults(results);
+        const response = await axios.get('http://localhost:1338/api/products', {
+            params: {
+                populate: '*',
+                'filters[name][$contains]': query
+            }
+        });
+        sessionStorage.setItem('searchResults', JSON.stringify(response.data.data));
+
+        navigate('/search')
     } catch (error) {
-      console.error("Error fetching search results:", error);
+        console.error('Error fetching the products:', error);
     }
-  };
+};
+
+ 
 
   return (
     <>
@@ -85,7 +89,7 @@ export function Header() {
                 Girls
               </Nav.Link>
 
-              <Form className="search" onSubmit={handleSearchSubmit}>
+              <Form className="search">
                 <Row>
                   <Col xs="auto">
                     <Form.Control
@@ -93,12 +97,13 @@ export function Header() {
                       placeholder="Search"
                       style={{ width: "300px" }}
                       className="search-input mr-sm-2"
-                      value={searchQuery}
-                      onChange={handleSearchChange}
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+      
                     />
                   </Col>
                   <Col xs="auto">
-                    <Button variant="secondary" type="submit">
+                    <Button variant="secondary" type="submit" onClick={searchProducts}>
                       <SearchNormal size="18" color="white" variant="Outline" />
                     </Button>
                   </Col>
@@ -149,23 +154,6 @@ export function Header() {
           </Popover.Body>
         </Popover>
       </Overlay>
-      {searchResults.length > 0 && (
-        <Container className="search-results">
-          <h2>Search Results</h2>
-          <Row>
-            {searchResults.map((result) => (
-              <Col key={result.id} sm={4}>
-                <div className="search-result-item">
-                  <Image src={`http://localhost:1338${result.image}`} thumbnail />
-                  <h5>{result.name}</h5>
-                  <p>{result.description}</p>
-                  <p>{result.price.toLocaleString()} đ</p>
-                </div>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      )}
     </>
   );
 }

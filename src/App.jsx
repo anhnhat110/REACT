@@ -17,10 +17,14 @@ import DetailMen from "./Details/DetailMen";
 import DetailWomen from "./Details/DetailWomen";
 import { Header } from "./Component/Header";
 import { CartProvider } from "./Component/CartContext";
+import { FavProvider } from "./Component/FavContext"; 
+
+import SearchResults from "./Component/Search";
 
 function App() {
   return (
     <CartProvider>
+    <FavProvider>
       <Router>
         <Header />
         <Routes>
@@ -39,10 +43,13 @@ function App() {
           <Route path="/heartbag" element={<HeartBag />} />
           <Route path="/resetpassword" element={<ResetPass />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/search" element={<SearchResults/>}/>
         </Routes>
         <ToastContainer />
       </Router>
+      </FavProvider>
     </CartProvider>
+    
   );
 }
 

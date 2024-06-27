@@ -1,14 +1,16 @@
-import "../styles/Body.css";
-import PropTypes from "prop-types";
-import axios from "axios";
-import { useEffect, useState } from "react";
+
+import { useEffect, useState, useContext } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Heart } from "iconsax-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import PropTypes from "prop-types";
+import { FavContext } from "./FavContext"; // Đường dẫn của FavContext
 
-export default function Body({ API, title, collection, productDetailPath,cat}) {
+export default function Body({ API, title, collection, productDetailPath, cat }) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
+  const { favItems, addToFav, removeFromFav } = useContext(FavContext);
 
   useEffect(() => {
     axios
@@ -25,32 +27,25 @@ export default function Body({ API, title, collection, productDetailPath,cat}) {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [API]);
+  }, [API, cat]);
 
   const handleShowMore = () => {
     setVisibleCount(visibleCount + 8);
   };
 
-  const handleLiked = (id) => {
-    const newData = data.map((item) => {
-      if (item.id === id) {
-        const newLiked = !item.liked;
-        // Update local state
-        item.liked = newLiked;
-        // Update localStorage
-        const savedLikes =
-          JSON.parse(localStorage.getItem("likedProducts")) || {};
-        localStorage.setItem(
-          "likedProducts",
-          JSON.stringify({
-            ...savedLikes,
-            [id]: newLiked,
-          })
-        );
-      }
-      return item;
-    });
-    setData(newData);
+  const handleLiked = (item) => {
+    const isFav = favItems.some(favItem => favItem.id === item.id);
+    const product = {
+      id: item.id,
+      name: item.attributes.name,
+      image: item.attributes.image?.data[0]?.attributes.url,
+      price: item.attributes.price,
+    };
+    if (isFav) {
+      removeFromFav(item.id);
+    } else {
+      addToFav(product);
+    }
   };
 
   return (
@@ -58,9 +53,12 @@ export default function Body({ API, title, collection, productDetailPath,cat}) {
       <h3 className="title">{collection}</h3>
       <h5 className="type">{title}</h5>
       <Row className="products">
-        {data.slice(0, visibleCount).map((d, i) => (
-          <Col key={i} sm={6} md={3} className="product-card">
-            <Link to={`${productDetailPath}/${d.id}`} onClick={() => window.scrollTo(0, 0)} >
+        {data.slice(0, visibleCount).map((d) => (
+          <Col key={d.id} sm={6} md={3} className="product-card">
+            <Link
+              to={`${productDetailPath}/${d.id}`}
+              onClick={() => window.scrollTo(0, 0)} // Scroll lên đầu khi click
+            >
               {d.attributes.image && d.attributes.image.data.length > 0 && (
                 <img
                   className="product-image"
@@ -70,7 +68,7 @@ export default function Body({ API, title, collection, productDetailPath,cat}) {
               )}
             </Link>
             <Button
-              onClick={() => handleLiked(d.id)}
+              onClick={() => handleLiked(d)}
               className="heart-button"
               variant="light"
               size="sm"
@@ -78,7 +76,7 @@ export default function Body({ API, title, collection, productDetailPath,cat}) {
               <Heart
                 size="20"
                 variant="Bold"
-                color={d.liked ? "red" : "black"}
+                color={favItems.some(favItem => favItem.id === d.id) ? "red" : "black"}
               />
             </Button>
             <div className="product-info">
@@ -110,5 +108,6 @@ Body.propTypes = {
   title: PropTypes.string.isRequired,
   collection: PropTypes.string.isRequired,
   productDetailPath: PropTypes.string.isRequired,
-  cat: PropTypes.string.isRequired
+  cat: PropTypes.string.isRequired,
 };
+
