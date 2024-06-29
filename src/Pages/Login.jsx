@@ -148,7 +148,6 @@ export default function Login() {
         <Outlet />
       </section>
     </div>
-    <Footer/>
     </>
   );
 }

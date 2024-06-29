@@ -9,7 +9,6 @@ import {
   Button,
   Overlay,
   Popover,
-  Image,
 } from "react-bootstrap";
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
@@ -24,8 +23,6 @@ import {
   ArrowCircleRight,
 } from "iconsax-react";
 import ShoppingCart from "./Shoppingcart"; // Assuming ShoppingCart component displays cart items
-import Search from "./Search";
-import axios from "axios";
 
 export function Header() {
   const { cartItems } = useContext(CartContext);
@@ -33,10 +30,9 @@ export function Header() {
   const [query, setQuery] = useState("");
 
   const target = useRef(null);
+//chuyenhuong
   const navigate = useNavigate();
- 
-
-
+//hieu ung cho overplay - Shopping Cart
   const handleMouseEnter = () => {
     setShowOverlay(true);
   };
@@ -44,24 +40,20 @@ export function Header() {
   const handleMouseLeave = () => {
     setShowOverlay(false);
   };
+//handleEvent Onclick - Search
   const searchProducts = async () => {
-    
     try {
-        const response = await axios.get('http://localhost:1338/api/products', {
-            params: {
-                populate: '*',
-                'filters[name][$contains]': query
-            }
-        });
-        sessionStorage.setItem('searchResults', JSON.stringify(response.data.data));
-
-        navigate('/search')
+      navigate(`/search?query=${query}`);
     } catch (error) {
-        console.error('Error fetching the products:', error);
+      console.error("Error navigating to search:", error);
     }
-};
-
- 
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchProducts();
+    }
+  };
 
   return (
     <>
@@ -99,11 +91,11 @@ export function Header() {
                       className="search-input mr-sm-2"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-      
+                      onKeyPress={handleKeyPress}
                     />
                   </Col>
                   <Col xs="auto">
-                    <Button variant="secondary" type="submit" onClick={searchProducts}>
+                    <Button variant="secondary" onClick={searchProducts}>
                       <SearchNormal size="18" color="white" variant="Outline" />
                     </Button>
                   </Col>
@@ -132,6 +124,7 @@ export function Header() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+{/* Overplay - Shopping Cart */}
       <Overlay
         show={showOverlay}
         target={target.current}
@@ -143,11 +136,11 @@ export function Header() {
           id="popover-contained"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          style={{ width: '400px', maxWidth: '400px' }}
+          style={{ width: "400px", maxWidth: "400px" }}
         >
           <Popover.Header as="h3" className="popover-header">
             Shopping Cart
-              <ArrowCircleRight size="20" color="Black" className="arrow" />
+            <ArrowCircleRight size="20" color="Black" className="arrow" />
           </Popover.Header>
           <Popover.Body className="popover-body">
             <ShoppingCart />

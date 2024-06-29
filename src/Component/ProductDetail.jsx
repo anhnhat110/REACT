@@ -7,6 +7,8 @@ import { CartContext } from "../Component/CartContext";
 import { FavContext } from "./FavContext"; // Đường dẫn của FavContext
 import { Heart } from "iconsax-react";
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 
 const ProductDetail = ({ url }) => {
@@ -16,6 +18,7 @@ const ProductDetail = ({ url }) => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useContext(CartContext);
   const { favItems, addToFav, removeFromFav } = useContext(FavContext);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +33,10 @@ const ProductDetail = ({ url }) => {
   }, [id, url]);
 
   const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      toast.error("You need to log in to add items to the cart");
+      return;
+    }
     if (selectedSize) {
       addToCart({
         id,
@@ -40,7 +47,7 @@ const ProductDetail = ({ url }) => {
         image: data.attributes.image.data[0].attributes.url,
       });
     } else {
-      alert("Please select a size.");
+      toast.error("Please select a size.");
     }
   };
 

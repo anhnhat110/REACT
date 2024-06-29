@@ -19,7 +19,7 @@ import { Header } from "./Component/Header";
 import { CartProvider } from "./Component/CartContext";
 import { FavProvider } from "./Component/FavContext"; 
 
-import SearchResults from "./Component/Search";
+import SearchResults from "./Component/SearchResult";
 
 function App() {
   return (
@@ -35,10 +35,10 @@ function App() {
           <Route path="/boys" element={<Boys />} />
           <Route path="/girls" element={<Girls />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/product-boys/:id" element={<DetailBoys />} />
-          <Route path="/product-girls/:id" element={<DetailGirls />} />
-          <Route path="/product-men/:id" element={<DetailMen />} />
-          <Route path="/product-women/:id" element={<DetailWomen />} />
+          <Route path="/products/:id" element={<DetailBoys />} />
+          <Route path="/products/:id" element={<DetailGirls />} />
+          <Route path="/products/:id" element={<DetailMen />} />
+          <Route path="/products/:id" element={<DetailWomen />} />
           <Route path="/shoppingcart" element={<ShoppingCart />} />
           <Route path="/heartbag" element={<HeartBag />} />
           <Route path="/resetpassword" element={<ResetPass />} />

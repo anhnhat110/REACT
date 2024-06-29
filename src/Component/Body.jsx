@@ -1,16 +1,20 @@
-
+import { useSelector } from "react-redux";
 import { useEffect, useState, useContext } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Heart } from "iconsax-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { FavContext } from "./FavContext"; // Đường dẫn của FavContext
+import { FavContext } from "./FavContext";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+ // Đường dẫn của FavContext
 
-export default function Body({ API, title, collection, productDetailPath, cat }) {
+export default function Body({ API, title, collection, cat}) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
   const { favItems, addToFav, removeFromFav } = useContext(FavContext);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     axios
@@ -23,6 +27,7 @@ export default function Body({ API, title, collection, productDetailPath, cat })
             )
         );
         setData(filteredData);
+        console.log(filteredData)
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -34,7 +39,11 @@ export default function Body({ API, title, collection, productDetailPath, cat })
   };
 
   const handleLiked = (item) => {
-    const isFav = favItems.some(favItem => favItem.id === item.id);
+    if (!isLoggedIn) {
+      toast.error("You need to log in to add items to favorites");
+      return;
+    }
+    const isFav = favItems.some((favItem) => favItem.id === item.id);
     const product = {
       id: item.id,
       name: item.attributes.name,
@@ -56,7 +65,7 @@ export default function Body({ API, title, collection, productDetailPath, cat })
         {data.slice(0, visibleCount).map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
             <Link
-              to={`${productDetailPath}/${d.id}`}
+              to={`/products/${d.id}`}
               onClick={() => window.scrollTo(0, 0)} // Scroll lên đầu khi click
             >
               {d.attributes.image && d.attributes.image.data.length > 0 && (
