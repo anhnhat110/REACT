@@ -1,119 +1,108 @@
-import { useContext } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import { CartContext } from "../Component/CartContext";
-import "../styles/Header.css"; // Update the CSS file name for clarity
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Container, Row, Col, Card, Image, Form, Button } from 'react-bootstrap';
+import { removeFromCart } from '../Redux/cartSlice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 const ShoppingCart = () => {
-  const { cartItems, removeFromCart, updatedCart } = useContext(CartContext);
+  const cartItems = useSelector(state => state.cart.cartItems);
+  const dispatch = useDispatch();
 
-  const handleQuantityChange = (id, size, quantity) => {
-    updatedCart(id, size, quantity);
+  const stripePromise = loadStripe("pk_test_51PXZjgGlooLglT1mbIJgE0lFKv7HLuWU68lS275g5O2QVBbDDmhcfHFZgZTfmYLtdL2OTAcA4pgHcOXOxcKv6JYs00lwV2u8Q1");
+  const [quantities, setQuantities] = useState(
+    cartItems.reduce((acc, item) => {
+      acc[`${item.id}-${item.size}`] = item.quantity;
+      return acc;
+    }, {})
+  );
+
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+      const res = await axios.post("http://localhost:1338/api/orders", {
+        products: cartItems,
+      });
+      await stripe.redirectToCheckout({
+        sessionId: res.data.stripeSession.id,
+      });
+      toast.success('Payment successful!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Error processing payment.');
+    }
   };
 
-  const getTotalPrice = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+  const handleQuantityChange = (event, productId, productSize) => {
+    const { value } = event.target;
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [`${productId}-${productSize}`]: parseInt(value, 10)
+    }));
+  };
+
+  const calculateTotalPrice = () => {
+    return cartItems.reduce((total, item) => {
+      return total + (item.price * quantities[`${item.id}-${item.size}`]);
+    }, 0);
+  };
+
+  const handleRemoveFromCart = (productId, productSize) => {
+    dispatch(removeFromCart({ id: productId, size: productSize }));
+    toast.error('Removed from cart');
   };
 
   return (
-    <Container className="cart">
-      <Row>
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty.</p>
-        ) : (
-          cartItems.map((item, index) => (
-            <Col key={index} sm={12} className="mb-3">
-              <Row className="cart-item-row">
-                <Col xs={4}>
-                  <img
-                    src={`http://localhost:1338${item.image}`}
-                    alt={item.name}
-                    className="cart-item-image"
+    <Container className="p-0">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <h1 className="shopping-cart-title fs-4">Shopping Cart</h1>
+      {cartItems.map(item => (
+        <Card className="mb-3" key={`${item.id}-${item.size}`}>
+          <Row className="g-0">
+            <Col md={4}>
+              <Image src={`http://localhost:1338${item.image}`} alt={item.name} fluid className="cart-image" />
+            </Col>
+            <Col md={8}>
+              <Card.Body>
+                <Card.Title className="fs-5">{item.name}</Card.Title>
+                <Card.Text className="text-truncate" style={{ maxWidth: '100%' }}>
+                  <strong className="fw-normal">Size:</strong> {item.size}<br />
+                  <strong className="fw-normal">Code:</strong> {item.id}<br />
+                  <strong className="fw-normal">Price:</strong> {Number(item.price).toLocaleString()} $
+                </Card.Text>
+                <Form.Group controlId={`quantity-${item.id}-${item.size}`} className="mb-3">
+                  <Form.Label className="fw-normal">Quantity</Form.Label>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    value={quantities[`${item.id}-${item.size}`]}
+                    onChange={(e) => handleQuantityChange(e, item.id, item.size)}
                   />
-                </Col>
-                <Col xs={8}>
-                  <div className="cart-item-details-wrapper">
-                    <div className="cart-item-box">
-                      <p className="cart-item-name">{item.name}</p>
-                      <p className="cart-item-details">
-                        Mã: {item.id} | Size: {item.size}
-                      </p>
-                      <p className="cart-item-price">
-                        {(item.price * item.quantity).toLocaleString()} đ
-                      </p>
-                      <div className="quantity-controls">
-                        <Button
-                          variant="outline-secondary"
-                          size="sm"
-                          onClick={() =>
-                            handleQuantityChange(
-                              item.id,
-                              item.size,
-                              item.quantity - 1
-                            )
-                          }
-                          disabled={item.quantity === 1}
-                        >
-                          -
-                        </Button>
-                        <span className="quantity">{item.quantity}</span>
-                        <Button
-                          variant="outline-secondary"
-                          size="sm"
-                          onClick={() =>
-                            handleQuantityChange(
-                              item.id,
-                              item.size,
-                              item.quantity + 1
-                            )
-                          }
-                        >
-                          +
-                        </Button>
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => removeFromCart(item.id, item.size)}
-                          className="cancel"
-                        >
-                          X
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
+                </Form.Group>
+                <Button variant="danger" onClick={() => handleRemoveFromCart(item.id, item.size)}>Remove</Button>
+              </Card.Body>
             </Col>
-          ))
-        )}
+          </Row>
+        </Card>
+      ))}
+      <Row className="mt-3">
+        <Col className="text-end"><strong className="fw-normal">Total:</strong></Col>
+        <Col className="text-start"><strong className="fw-normal">{calculateTotalPrice().toLocaleString()} $</strong></Col>
       </Row>
-      {cartItems.length > 0 && (
-        <>
-          <Row className="mt-3">
-            <Col className="text-right">
-              <h5 className="total-price">
-                Total: {getTotalPrice().toLocaleString()} đ
-              </h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="text-right">
-              <Button
-                variant="primary"
-                as={NavLink}
-                to="/checkout"
-                size="lg"
-                className="button-checkout custom-checkout-btn"
-              >
-                Checkout
-              </Button>
-            </Col>
-          </Row>
-        </>
-      )}
+      <Row>
+        <Col className="text-right">
+          <Button
+            variant="primary"
+            size="lg"
+            className="button-checkout custom-checkout-btn"
+            onClick={handlePayment}
+          >
+            Checkout
+          </Button>
+        </Col>
+      </Row>
     </Container>
   );
 };

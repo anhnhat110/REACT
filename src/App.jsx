@@ -11,15 +11,14 @@ import HeartBag from "./Pages/HeartBag";
 import ResetPass from "./Pages/ResetPass";
 import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
-import DetailBoys from "./Details/DetailBoys";
-import DetailGirls from "./Details/DetailGirls";
-import DetailMen from "./Details/DetailMen";
-import DetailWomen from "./Details/DetailWomen";
+import Detail from "./Details/Detail";
 import { Header } from "./Component/Header";
 import { CartProvider } from "./Component/CartContext";
 import { FavProvider } from "./Component/FavContext"; 
 
+
 import SearchResults from "./Component/SearchResult";
+import Profile from "./Pages/Profile";
 
 function App() {
   return (
@@ -34,12 +33,10 @@ function App() {
           <Route path="/women" element={<Women />} />
           <Route path="/boys" element={<Boys />} />
           <Route path="/girls" element={<Girls />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/products/:id" element={<DetailBoys />} />
-          <Route path="/products/:id" element={<DetailGirls />} />
-          <Route path="/products/:id" element={<DetailMen />} />
-          <Route path="/products/:id" element={<DetailWomen />} />
-          <Route path="/shoppingcart" element={<ShoppingCart />} />
+          <Route path="/login" element={<Login />}/>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/products/:id" element={<Detail />} />
+                   <Route path="/shoppingcart" element={<ShoppingCart />} />
           <Route path="/heartbag" element={<HeartBag />} />
           <Route path="/resetpassword" element={<ResetPass />} />
           <Route path="/register" element={<Register />} />

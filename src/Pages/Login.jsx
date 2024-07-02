@@ -8,9 +8,9 @@ import { Heart } from "iconsax-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, loginSuccess, logout } from "../Redux/authSlice";
 import Footer from "../Component/Footer";
+import { UserEdit } from "iconsax-react";
 
 export default function Login() {
-
   const { user, isLoggedIn, username } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,94 +60,101 @@ export default function Login() {
 
   return (
     <>
-    <div>
-      <section className="vh-200 d-flex align-items-center justify-content-center bg-light">
-        <Container>
-          <Row className="d-flex justify-content-center">
-            <Col md={8} lg={6} xl={4}>
-              <div className="card shadow-sm">
-                <div className="card-body p-4">
-                  {isLoggedIn ? (
-                    <div>
-                      <h3 className="mb-4 text-center">
-                        Welcome to Maverick, {username}{" "}
-                        <Heart size="32" color="red" variant="Bold" />
-                      </h3>
-                      <div className="text-center">
-                        <Button
-                          variant="secondary"
-                          size="lg"
-                          onClick={handleLogout}
-                        >
-                          Logout
+      <div>
+        <section className="vh-200 d-flex align-items-center justify-content-center bg-light">
+          <Container>
+            <Row className="d-flex justify-content-center">
+              <Col md={8} lg={6} xl={4}>
+                <div className="card shadow-sm">
+                  <div className="card-body p-4">
+                    {isLoggedIn ? (
+                      <div>
+                        <Button variant="light" >
+                          <UserEdit
+                            size="24"
+                            color="black"
+
+                          />
                         </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <h1 className="mb-4 text-center">Sign in</h1>
-                      <Form onSubmit={handleLogin}>
-                        <Form.Group
-                          controlId="formBasicUsername"
-                          className="mb-4"
-                        >
-                          <Form.Label>Username</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Username"
-                            name="identifier"
-                            value={user.identifier}
-                            onChange={handleChange}
-                          />
-                        </Form.Group>
-
-                        <Form.Group
-                          controlId="formBasicPassword"
-                          className="mb-3"
-                        >
-                          <Form.Label>Password</Form.Label>
-                          <Form.Control
-                            type="password"
-                            placeholder="Enter Password"
-                            name="password"
-                            value={user.password}
-                            onChange={handleChange}
-                          />
-                        </Form.Group>
-
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                          <Form.Check
-                            type="checkbox"
-                            label="Remember me"
-                            id="form2Example3"
-                          />
-                          <NavLink to="/resetpassword" className="text-body">
-                            Forgot password?
-                          </NavLink>
-                        </div>
-
+                        <h3 className="mb-4 text-center">
+                          Welcome to Maverick, {username}{" "}
+                          <Heart size="32" color="red" variant="Bold" />
+                        </h3>
                         <div className="text-center">
-                          <Button variant="secondary" size="lg" type="submit">
-                            Login
+                          <Button
+                            variant="secondary"
+                            size="lg"
+                            onClick={handleLogout}
+                          >
+                            Logout
                           </Button>
-                          <p className="small fw-bold mt-3">
-                            Dont have an account?{" "}
-                            <NavLink to="/register" className="link-danger">
-                              Register
-                            </NavLink>
-                          </p>
                         </div>
-                      </Form>
-                    </div>
-                  )}
+                      </div>
+                    ) : (
+                      <div>
+                        <h1 className="mb-4 text-center">Sign in</h1>
+                        <Form onSubmit={handleLogin}>
+                          <Form.Group
+                            controlId="formBasicUsername"
+                            className="mb-4"
+                          >
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter Username"
+                              name="identifier"
+                              value={user.identifier}
+                              onChange={handleChange}
+                            />
+                          </Form.Group>
+
+                          <Form.Group
+                            controlId="formBasicPassword"
+                            className="mb-3"
+                          >
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                              type="password"
+                              placeholder="Enter Password"
+                              name="password"
+                              value={user.password}
+                              onChange={handleChange}
+                            />
+                          </Form.Group>
+
+                          <div className="d-flex justify-content-between align-items-center mb-3">
+                            <Form.Check
+                              type="checkbox"
+                              label="Remember me"
+                              id="form2Example3"
+                            />
+                            <NavLink to="/resetpassword" className="text-body">
+                              Forgot password?
+                            </NavLink>
+                          </div>
+
+                          <div className="text-center">
+                            <Button variant="secondary" size="lg" type="submit">
+                              Login
+                            </Button>
+                            <p className="small fw-bold mt-3">
+                              Dont have an account?{" "}
+                              <NavLink to="/register" className="link-danger">
+                                Register
+                              </NavLink>
+                            </p>
+                          </div>
+                        </Form>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-        <Outlet />
-      </section>
-    </div>
+              </Col>
+            </Row>
+          </Container>
+          <Outlet />
+        </section>
+      </div>
     </>
   );
 }

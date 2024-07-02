@@ -119,4 +119,3 @@ Body.propTypes = {
   productDetailPath: PropTypes.string.isRequired,
   cat: PropTypes.string.isRequired,
 };
-
