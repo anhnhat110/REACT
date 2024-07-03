@@ -13,7 +13,6 @@ import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
 import Detail from "./Details/Detail";
 import { Header } from "./Component/Header";
-import { CartProvider } from "./Component/CartContext";
 import { FavProvider } from "./Component/FavContext"; 
 
 
@@ -22,7 +21,6 @@ import Profile from "./Pages/Profile";
 
 function App() {
   return (
-    <CartProvider>
     <FavProvider>
       <Router>
         <Header />
@@ -45,7 +43,6 @@ function App() {
         <ToastContainer />
       </Router>
       </FavProvider>
-    </CartProvider>
     
   );
 }

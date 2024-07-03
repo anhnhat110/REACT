@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { useLocation,Link } from "react-router-dom";
-import axios from "axios";
+import { useLocation, Link } from "react-router-dom";
+import axiosInstance from "../service/axiosInstance"; // Import axios instance đã tạo
+
 import { Row, Col, Container } from "react-bootstrap";
- // Import các component Bootstrap cần thiết
+// Import các component Bootstrap cần thiết
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState([]);
   const location = useLocation();
-  
-  const query = new URLSearchParams(location.search).get('query');
+
+  const query = new URLSearchParams(location.search).get("query");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:1338/api/products", {
+        const response = await axiosInstance.get("/products", {
           params: {
             populate: "*",
             "filters[name][$contains]": query,
@@ -36,21 +37,16 @@ const SearchResults = () => {
       <Row className="products">
         {searchResults.map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
-          <Link
-              to={`/products/${d.id}`}
-              onClick={() => window.scrollTo(0, 0)} // Scroll lên đầu khi click
-            >
-            <img
-              className="product-image"
-              src={`http://localhost:1338${d.attributes.image.data[0].attributes.url}`}
-              alt={d.attributes.image.data[0].attributes.name}
-            />
+            <Link to={`/products/${d.id}`} onClick={() => window.scrollTo(0, 0)}>
+              <img
+                className="product-image"
+                src={`http://localhost:1338${d.attributes.image.data[0]?.attributes.url}`}
+                alt={d.attributes.name}
+              />
             </Link>
             <div className="product-info">
               <div className="name">{d.attributes.name}</div>
-              <div>
-                Price: {Number(d.attributes.price).toLocaleString()} VND
-              </div>
+              <div>Price: {Number(d.attributes.price).toLocaleString()} VND</div>
             </div>
           </Col>
         ))}

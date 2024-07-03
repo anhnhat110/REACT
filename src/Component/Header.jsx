@@ -1,4 +1,5 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useRef } from "react";
+import { useSelector } from 'react-redux';
 import {
   Container,
   Navbar,
@@ -13,7 +14,6 @@ import {
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
 import { NavLink, useNavigate } from "react-router-dom";
-import { CartContext } from "../Component/CartContext";
 import {
   ShoppingCart as CartIcon,
   SearchNormal,
@@ -25,14 +25,14 @@ import {
 import ShoppingCart from "./Shoppingcart"; // Assuming ShoppingCart component displays cart items
 
 export function Header() {
-  const { cartItems } = useContext(CartContext);
+  const cartItems = useSelector(state => state.cart.cartItems);
   const [showOverlay, setShowOverlay] = useState(false);
   const [query, setQuery] = useState("");
 
   const target = useRef(null);
-//chuyenhuong
+  // Chuyen huong
   const navigate = useNavigate();
-//hieu ung cho overplay - Shopping Cart
+  // Hieu ung cho overlay - Shopping Cart
   const handleMouseEnter = () => {
     setShowOverlay(true);
   };
@@ -40,7 +40,7 @@ export function Header() {
   const handleMouseLeave = () => {
     setShowOverlay(false);
   };
-//handleEvent Onclick - Search
+  // handleEvent Onclick - Search
   const searchProducts = async () => {
     try {
       navigate(`/search?query=${query}`);
@@ -124,7 +124,7 @@ export function Header() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-{/* Overplay - Shopping Cart */}
+      {/* Overlay - Shopping Cart */}
       <Overlay
         show={showOverlay}
         target={target.current}

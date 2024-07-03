@@ -7,7 +7,7 @@ export default function Boys() {
   return (
     <div>
       <Slide />
-      <Body API={'http://localhost:1338/api/products?populate=*'} collection="Boys collection" title="For boys"  cat= "boys" />
+      <Body collection="Boys collection" title="For boys"  cat= "boys" />
       <Footer/>
     </div>
   );
