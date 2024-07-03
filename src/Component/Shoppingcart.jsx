@@ -1,11 +1,12 @@
-import React from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Image, Form, Button, ListGroup } from 'react-bootstrap';
-import { removeFromCart } from '../Redux/cartSlice';
+import { Container, Row, Col, Image, Button, ListGroup,Form} from 'react-bootstrap';
+import { removeFromCart, updateQuantity } from '../Redux/cartSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from "@stripe/stripe-js";
 import axiosInstance from '../service/axiosInstance';
+import { Trash } from 'iconsax-react';
 
 const ShoppingCart = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -29,24 +30,8 @@ const ShoppingCart = () => {
     }
   };
 
-  const handleQuantityChange = (event, productId, productSize) => {
-    const { value } = event.target;
-    // Ensure the new quantity is a valid positive integer
-    const newQuantity = parseInt(value, 10);
-    if (isNaN(newQuantity) || newQuantity < 1) {
-      return; // Ignore invalid input
-    }
-    
-    const updatedCartItems = cartItems.map(item => {
-      if (item.id === productId && item.size === productSize) {
-        return {
-          ...item,
-          quantity: newQuantity
-        };
-      }
-      return item;
-    });
-    dispatch({ type: 'cart/updateCart', payload: updatedCartItems });
+  const handleQuantityChange = (productId, productSize, newQuantity) => {
+    dispatch(updateQuantity({ id: productId, size: productSize, quantity: newQuantity }));
   };
 
   const calculateTotalPrice = () => {
@@ -77,25 +62,36 @@ const ShoppingCart = () => {
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <h5 className="fs-5">{group.name}</h5>
+                    <Button variant="outline-secondary" onClick={() => handleRemoveFromCart(group.id, group.size)}><Trash size="20" color="black"/></Button>
                     <p className="text-truncate mb-0" style={{ maxWidth: '100%' }}>
-                      <strong className="fw-normal">Size:</strong> {group.size}<br />
-                      <strong className="fw-normal">Code:</strong> {group.id}<br />
-                      <strong className="fw-normal">Price:</strong> {Number(group.price).toLocaleString()}$
+                      <strong className="fw-normal">Size:</strong> {group.size} | Code: {group.id} <br />
+                      <strong className="fw-normal"></strong> {Number(group.price).toLocaleString()}$
                     </p>
                   </div>
-                  <div className="text-end">
-                    <Form.Group controlId={`quantity-${group.id}-${group.size}`} className="mb-3">
-                      <Form.Label className="fw-normal">Quantity</Form.Label>
+                  </div>
+                  <div className="d-flex align-items-center">
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => handleQuantityChange(group.id, group.size, group.quantity - 1)}
+                        disabled={group.quantity === 1}
+                      >
+                        -
+                      </Button>
                       <Form.Control
                         type="number"
                         min="1"
                         value={group.quantity}
-                        onChange={(e) => handleQuantityChange(e, group.id, group.size)}
+                        onChange={(e) => handleQuantityChange(group.id, group.size, parseInt(e.target.value, 10))}
                       />
-                    </Form.Group>
-                    <Button variant="danger" onClick={() => handleRemoveFromCart(group.id, group.size)}>Remove</Button>
-                  </div>
-                </div>
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => handleQuantityChange(group.id, group.size, group.quantity + 1)}
+                      >
+                        +
+                      </Button>
+                    </div>
               </Col>
             </Row>
           </ListGroup.Item>
