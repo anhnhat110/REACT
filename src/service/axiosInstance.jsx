@@ -1,5 +1,4 @@
 // axiosInstance.js
-
 import axios from 'axios';
 
 // Tạo một instance của Axios
@@ -29,13 +28,8 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Xử lý lỗi 401 (Unauthorized)
     if (error.response && error.response.status === 401) {
-      // Xóa token nếu không được ủy quyền
       localStorage.removeItem('token');
-      // Chuyển hướng người dùng đến trang đăng nhập hoặc hiển thị thông báo
-      // window.location.href = '/login'; // Có thể chuyển hướng đến trang login
-      // Ví dụ: Hiển thị thông báo lỗi
       console.error('Unauthorized access. Please log in again.');
     }
     return Promise.reject(error);

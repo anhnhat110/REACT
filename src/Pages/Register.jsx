@@ -23,7 +23,7 @@ export default function Register() {
         );
         toast.success("Account created successfully!");
         localStorage.setItem("jwt", data.jwt);
-        navigate("/user");
+        navigate("/login");
       } else {
         toast.error("Please fill in all fields.");
       }

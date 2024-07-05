@@ -1,18 +1,19 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Heart } from "iconsax-react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
 import { fetchProducts } from "../service/productService"; // Import functions from productService
 import PropTypes from "prop-types";
-import { FavContext } from "./FavContext";
-import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function Body({ title, collection, cat }) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
-  const { favItems, addToFav, removeFromFav } = useContext(FavContext);
+  const dispatch = useDispatch();
+  const favItems = useSelector((state) => state.wishlist.favItems);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
@@ -51,9 +52,9 @@ export default function Body({ title, collection, cat }) {
       price: item.attributes.price,
     };
     if (isFav) {
-      removeFromFav(item.id);
+      dispatch(removeFromFav(item.id));
     } else {
-      addToFav(product);
+      dispatch(addToFav(product));
     }
   };
 
@@ -64,10 +65,7 @@ export default function Body({ title, collection, cat }) {
       <Row className="products">
         {data.slice(0, visibleCount).map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
-            <Link
-              to={`/products/${d.id}`}
-              onClick={() => window.scrollTo(0, 0)}
-            >
+            <Link to={`/products/${d.id}`} onClick={() => window.scrollTo(0, 0)}>
               {d.attributes.image && d.attributes.image.data.length > 0 && (
                 <img
                   className="product-image"

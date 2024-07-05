@@ -107,7 +107,7 @@ export function Header() {
               <Button variant="light" as={NavLink} to="/checkout">
                 <Shop size="18" color="Black" variant="Bold" />
               </Button>
-              <Button variant="light" as={NavLink} to="/heartbag">
+              <Button variant="light" as={NavLink} to="/wishlist">
                 <HeartTick size="18" color="Black" variant="Bold" />
               </Button>
               <Button

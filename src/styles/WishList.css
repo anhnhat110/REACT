@@ -1,0 +1,19 @@
+.top-wishlist {
+    display: flex;
+    justify-content:center;
+}
+.wishlist-item-details-horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .wishlist-item-details-horizontal p {
+    margin-right: 10px;
+    white-space: nowrap; /* Giữ nội dung trong một dòng */
+  }
+.wishlist-item-remove {
+    margin-right: 1rem;
+}
+  

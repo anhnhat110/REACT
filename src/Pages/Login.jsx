@@ -54,10 +54,6 @@ export default function Login() {
     navigate("/");
   };
 
-  useEffect(() => {
-    console.log("isLoggedIn after login:", isLoggedIn);
-  }, [isLoggedIn]);
-
   return (
     <>
       <div>

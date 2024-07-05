@@ -1,21 +1,23 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Container, Row, Col, Button} from "react-bootstrap";
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../Redux/cartSlice';
-import { FavContext } from "./FavContext";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../Redux/cartSlice";
+import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
 import { Heart } from "iconsax-react";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { fetchProductById } from "../service/productService";
-import "../styles/ProductDetail.css"
+import "../styles/ProductDetail.css";
+import Body from "./Body";  // Import Body component
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
-  const { favItems, addToFav, removeFromFav } = useContext(FavContext);
   const dispatch = useDispatch();
+  const favItems = useSelector((state) => state.wishlist.favItems);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +32,7 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleLiked = (item) => {
-    const isFav = favItems.some(favItem => favItem.id === item.id);
+    const isFav = favItems.some((favItem) => favItem.id === item.id);
     const product = {
       id: item.id,
       name: item.attributes.name,
@@ -38,23 +40,27 @@ const ProductDetail = () => {
       price: item.attributes.price,
     };
     if (isFav) {
-      removeFromFav(item.id);
+      dispatch(removeFromFav(item.id));
     } else {
-      addToFav(product);
+      dispatch(addToFav(product));
     }
   };
 
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Please select a size");
+      return;
+    }
     const product = {
       id: data.id,
       name: data.attributes.name,
       image: data.attributes.image?.data[0]?.attributes.url,
       price: data.attributes.price,
       size: selectedSize,
-      quantity: 1 // Mặc định quantity là 1 khi thêm vào giỏ hàng
+      quantity: 1, // Mặc định quantity là 1 khi thêm vào giỏ hàng
     };
     dispatch(addToCart(product));
-    toast.success('Added to cart');
+    toast.success("Added to cart");
   };
 
   if (!data) {
@@ -88,7 +94,11 @@ const ProductDetail = () => {
               <Heart
                 size="24"
                 variant="Bold"
-                color={favItems.some(favItem => favItem.id === data.id) ? "red" : "black"}
+                color={
+                  favItems.some((favItem) => favItem.id === data.id)
+                    ? "red"
+                    : "black"
+                }
               />
             </Button>
           </div>
@@ -102,7 +112,9 @@ const ProductDetail = () => {
                 onClick={() => setSelectedSize(size.name)}
               >
                 <Button
-                  variant={selectedSize === size.name ? "dark" : "outline-dark"}
+                  variant={
+                    selectedSize === size.name ? "dark" : "outline-dark"
+                  }
                 >
                   {size.name}
                 </Button>
@@ -116,12 +128,14 @@ const ProductDetail = () => {
           >
             Add to Cart
           </Button>
-          <p>
-            Call to <b>Hotline</b> To Faster Order
-          </p>
           <p>Call to Hotline: 0363652758</p>
         </Col>
       </Row>
+      <Body
+        collection="Related Products"
+        title="You might also like"
+        cat={attributes.categories.data[0]?.attributes.name} // Pass the category name
+      />
     </Container>
   );
 };
