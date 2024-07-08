@@ -53,8 +53,10 @@ export default function Body({ title, collection, cat }) {
     };
     if (isFav) {
       dispatch(removeFromFav(item.id));
+
     } else {
       dispatch(addToFav(product));
+
     }
   };
 

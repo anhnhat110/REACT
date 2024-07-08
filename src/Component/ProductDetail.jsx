@@ -10,7 +10,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchProductById } from "../service/productService";
 import "../styles/ProductDetail.css";
-import Body from "./Body";  // Import Body component
+import Body from "./Body"; 
+
+
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -18,6 +20,7 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState(null);
   const dispatch = useDispatch();
   const favItems = useSelector((state) => state.wishlist.favItems);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +35,11 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleLiked = (item) => {
+    if (!isLoggedIn) {
+      toast.error("You need to log in to add items to favorites");
+      return;
+    }
+  
     const isFav = favItems.some((favItem) => favItem.id === item.id);
     const product = {
       id: item.id,
@@ -39,12 +47,16 @@ const ProductDetail = () => {
       image: item.attributes.image?.data[0]?.attributes.url,
       price: item.attributes.price,
     };
+  
     if (isFav) {
       dispatch(removeFromFav(item.id));
+      
     } else {
       dispatch(addToFav(product));
+
     }
   };
+  
 
   const handleAddToCart = () => {
     if (!selectedSize) {
