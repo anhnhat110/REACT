@@ -11,7 +11,7 @@ import Wishlist from "./Pages/Wishlist"
 import ResetPass from "./Pages/ResetPass";
 import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
-import Detail from "./Details/Detail";
+import Detail from "./Component/Detail";
 import { Header } from "./Component/Header";
 // import { FavProvider } from "./Component/FavContext";
 
