@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from "@stripe/stripe-js";
 import axiosInstance from '../service/axiosInstance';
 import { Trash } from 'iconsax-react';
+import "../styles/ShoppingCart.css"
 
 const ShoppingCart = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -62,7 +63,8 @@ const ShoppingCart = () => {
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <h5 className="fs-5">{group.name}</h5>
-                    <Button variant="outline-secondary" onClick={() => handleRemoveFromCart(group.id, group.size)}><Trash size="20" color="black"/></Button>
+                    <Trash size="20" color="red" variant="TwoTone" onClick={() => handleRemoveFromCart(group.id, group.size)} style={{ cursor: 'pointer' }} // Change cursor to pointer on hover
+  className="trash-icon" />
                     <p className="text-truncate mb-0" style={{ maxWidth: '100%' }}>
                       <strong className="fw-normal">Size:</strong> {group.size} | Code: {group.id} <br />
                       <strong className="fw-normal"></strong> {Number(group.price).toLocaleString()}$

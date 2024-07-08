@@ -44,6 +44,7 @@ export default function Body({ title, collection, cat }) {
       toast.error("You need to log in to add items to favorites");
       return;
     }
+  
     const isFav = favItems.some((favItem) => favItem.id === item.id);
     const product = {
       id: item.id,
@@ -51,9 +52,10 @@ export default function Body({ title, collection, cat }) {
       image: item.attributes.image?.data[0]?.attributes.url,
       price: item.attributes.price,
     };
+  
     if (isFav) {
       dispatch(removeFromFav(item.id));
-
+      
     } else {
       dispatch(addToFav(product));
 

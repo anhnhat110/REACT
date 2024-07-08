@@ -7,7 +7,7 @@ import { login, setUser, logout, clearLoginError } from "../Redux/authSlice";
 import { toast } from "react-toastify";
 
 export default function Login() {
-  const { isLoggedIn, username, loginError } = useSelector((state) => state.auth);
+  const { isLoggedIn, username} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,12 +19,6 @@ export default function Login() {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    if (loginError) {
-      toast.error(loginError);
-      dispatch(clearLoginError());
-    }
-  }, [loginError, dispatch]);
 
   const handleChange = (e) => {
     dispatch(setUser(e.target.value));
@@ -38,15 +32,14 @@ export default function Login() {
     };
     try {
       await dispatch(login(user));
-      navigate("/");
     } catch (error) {
-      alert(error); // Show alert for login error
+      alert(error);
     }
   };
+  if (isLoggedIn) {navigate("/");}
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/");
   };
 
   return (

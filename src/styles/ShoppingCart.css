@@ -1,0 +1,4 @@
+.trash-icon:hover {
+    transform: scale(1.1); /* Example: Increase size on hover */
+    /* Add other hover effects as needed */
+  }

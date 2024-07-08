@@ -14,18 +14,6 @@ const Wishlist = () => {
     dispatch(removeFromFav(id));
   };
 
-  const handleAddToCart = (item) => {
-    const product = {
-      id: item.id,
-      name: item.name,
-      image: item.image,
-      price: item.price,
-      size: item.size, // Assuming size is already stored in item
-      quantity: 1, // Default quantity is 1
-    };
-    dispatch(addToCart(product));
-  };
-
   return (
     <Container className="wishlist-container">
       <Row>
@@ -73,7 +61,6 @@ const Wishlist = () => {
                     <Button
                       variant="secondary"
                       size="sm"
-                      onClick={() => handleAddToCart(item)}
                       className="wishlist-item-add-to-cart"
                     >
                       View product

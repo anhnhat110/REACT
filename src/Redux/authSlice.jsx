@@ -28,9 +28,7 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.username = action.payload;
     },
-    clearLoginError: (state) => {
-      state.loginError = null;
-    },
+  
     logout: (state) => {
       state.isLoggedIn = false;
       state.username = "";
@@ -45,14 +43,15 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        state.username = action.payload.user?.username; // Ensure `action.payload` has `user` object
+        state.username = action.payload.user?.username;
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("username", action.payload.user?.username);
         toast.success("Logged in successfully!");
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoggedIn = false; // Set isLoggedIn to false on login failure
-        state.loginError = action.payload.message; // Access the error message from
+        state.loginError = action.payload.message; 
+        localStorage.setItem("isLoggedIn", "false");// Access the error message from
         toast.error("Check your credentials");
       });
   },
