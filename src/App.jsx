@@ -7,7 +7,7 @@ import Boys from "./Pages/Boys";
 import Girls from "./Pages/Girls";
 import Login from "./Pages/Login";
 import ShoppingCart from "./Component/Shoppingcart";
-import Wishlist from "./Pages/Wishlist"
+import Wishlist from "./Pages/Wishlist";
 import ResetPass from "./Pages/ResetPass";
 import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";

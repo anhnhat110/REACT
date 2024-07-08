@@ -1,11 +1,10 @@
-// src/redux/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginUser } from "../service/authService";
 import { toast } from "react-toastify";
 
 const initialState = {
-  isLoggedIn: false,
-  username: "",
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+  username: localStorage.getItem("username") || "",
   loginError: null,
 };
 
@@ -28,7 +27,6 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.username = action.payload;
     },
-  
     logout: (state) => {
       state.isLoggedIn = false;
       state.username = "";
@@ -50,11 +48,12 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoggedIn = false; // Set isLoggedIn to false on login failure
-        state.loginError = action.payload.message; 
-        localStorage.setItem("isLoggedIn", "false");// Access the error message from
+        state.loginError = action.payload.message;
+        localStorage.setItem("isLoggedIn", "false");
         toast.error("Check your credentials");
       });
   },
 });
+
 export const { setUser, clearLoginError, logout } = authSlice.actions;
 export default authSlice;

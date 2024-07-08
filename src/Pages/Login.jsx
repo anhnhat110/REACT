@@ -1,13 +1,11 @@
-// src/Login.js
 import { useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { login, setUser, logout, clearLoginError } from "../Redux/authSlice";
-import { toast } from "react-toastify";
+import { login, setUser, logout } from "../Redux/authSlice";
 
 export default function Login() {
-  const { isLoggedIn, username} = useSelector((state) => state.auth);
+  const { isLoggedIn, username } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,7 +16,6 @@ export default function Login() {
       dispatch(setUser(storedUsername));
     }
   }, [dispatch]);
-
 
   const handleChange = (e) => {
     dispatch(setUser(e.target.value));
@@ -31,12 +28,14 @@ export default function Login() {
       password: e.target.password.value,
     };
     try {
-      await dispatch(login(user));
+      const actionResult = await dispatch(login(user));
+      if (login.fulfilled.match(actionResult)) {
+        navigate("/");
+      }
     } catch (error) {
-      alert(error);
+      alert(error); // Temporary error handling
     }
   };
-  if (isLoggedIn) {navigate("/");}
 
   const handleLogout = () => {
     dispatch(logout());
@@ -100,7 +99,7 @@ export default function Login() {
                               Login
                             </Button>
                             <p className="small fw-bold mt-3">
-                              Don't have an account?{" "}
+                              Do u want to create an account?{" "}
                               <NavLink to="/register" className="link-danger">
                                 Register
                               </NavLink>
@@ -114,7 +113,6 @@ export default function Login() {
               </Col>
             </Row>
           </Container>
-          <Outlet />
         </section>
       </div>
     </>

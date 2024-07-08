@@ -20,11 +20,10 @@ export default function Body({ title, collection, cat }) {
     const fetchData = async () => {
       try {
         const products = await fetchProducts();
-        const filteredData = products.filter(
-          (item) =>
-            item.attributes.categories.data.some(
-              (category) => category.attributes.name === cat
-            )
+        const filteredData = products.filter((item) =>
+          item.attributes.categories.data.some(
+            (category) => category.attributes.name === cat
+          )
         );
         setData(filteredData);
       } catch (error) {
@@ -44,7 +43,7 @@ export default function Body({ title, collection, cat }) {
       toast.error("You need to log in to add items to favorites");
       return;
     }
-  
+
     const isFav = favItems.some((favItem) => favItem.id === item.id);
     const product = {
       id: item.id,
@@ -52,13 +51,11 @@ export default function Body({ title, collection, cat }) {
       image: item.attributes.image?.data[0]?.attributes.url,
       price: item.attributes.price,
     };
-  
+
     if (isFav) {
       dispatch(removeFromFav(item.id));
-      
     } else {
       dispatch(addToFav(product));
-
     }
   };
 
@@ -69,7 +66,10 @@ export default function Body({ title, collection, cat }) {
       <Row className="products">
         {data.slice(0, visibleCount).map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
-            <Link to={`/products/${d.id}`} onClick={() => window.scrollTo(0, 0)}>
+            <Link
+              to={`/products/${d.id}`}
+              onClick={() => window.scrollTo(0, 0)}
+            >
               {d.attributes.image && d.attributes.image.data.length > 0 && (
                 <img
                   className="product-image"
@@ -87,14 +87,16 @@ export default function Body({ title, collection, cat }) {
               <Heart
                 size="20"
                 variant="Bold"
-                color={favItems.some((favItem) => favItem.id === d.id) ? "red" : "black"}
+                color={
+                  favItems.some((favItem) => favItem.id === d.id)
+                    ? "red"
+                    : "black"
+                }
               />
             </Button>
             <div className="product-info">
               <div className="name">{d.attributes.name}</div>
-              <div>
-                Price: {Number(d.attributes.price).toLocaleString()}$
-              </div>
+              <div>Price: {Number(d.attributes.price).toLocaleString()}$</div>
             </div>
           </Col>
         ))}

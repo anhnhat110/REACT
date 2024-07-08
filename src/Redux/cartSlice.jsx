@@ -1,8 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  cartItems: [],
+// Lấy dữ liệu từ localStorage
+const getInitialState = () => {
+  const storedItems = localStorage.getItem('cartItems');
+  return {
+    cartItems: storedItems ? JSON.parse(storedItems) : [],
+  };
 };
+
+const initialState = getInitialState();
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -16,16 +22,22 @@ export const cartSlice = createSlice({
       } else {
         state.cartItems.push({ id, name, image, size, price, quantity });
       }
+      // Cập nhật localStorage
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
     },
     removeFromCart: (state, action) => {
       const { id, size } = action.payload;
       state.cartItems = state.cartItems.filter(item => !(item.id === id && item.size === size));
+      // Cập nhật localStorage
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
     },
     updateQuantity: (state, action) => {
       const { id, size, quantity } = action.payload;
       const itemToUpdate = state.cartItems.find(item => item.id === id && item.size === size);
       if (itemToUpdate) {
         itemToUpdate.quantity = quantity;
+        // Cập nhật localStorage
+        localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
       }
     },
   },

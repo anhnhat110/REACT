@@ -37,7 +37,10 @@ const SearchResults = () => {
       <Row className="products">
         {searchResults.map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
-            <Link to={`/products/${d.id}`} onClick={() => window.scrollTo(0, 0)}>
+            <Link
+              to={`/products/${d.id}`}
+              onClick={() => window.scrollTo(0, 0)}
+            >
               <img
                 className="product-image"
                 src={`http://localhost:1338${d.attributes.image.data[0]?.attributes.url}`}
@@ -46,7 +49,9 @@ const SearchResults = () => {
             </Link>
             <div className="product-info">
               <div className="name">{d.attributes.name}</div>
-              <div>Price: {Number(d.attributes.price).toLocaleString()} VND</div>
+              <div>
+                Price: {Number(d.attributes.price).toLocaleString()} VND
+              </div>
             </div>
           </Col>
         ))}

@@ -2,3 +2,7 @@
     transform: scale(1.1); /* Example: Increase size on hover */
     /* Add other hover effects as needed */
   }
+.trash-icon { 
+  margin-left: 3rem;
+  margin-bottom: 1rem;
+}

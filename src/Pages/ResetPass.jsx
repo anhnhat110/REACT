@@ -3,7 +3,7 @@ export default function ResetPass() {
   return (
     <div>
       <h1>Resetpass</h1>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
