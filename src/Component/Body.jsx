@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
 import { fetchProducts } from "../service/productService"; // Import functions from productService
 import PropTypes from "prop-types";
+import Sort from "./Sort";
 
 export default function Body({ title, collection, cat }) {
   const [data, setData] = useState([]);
@@ -61,8 +62,15 @@ export default function Body({ title, collection, cat }) {
 
   return (
     <Container>
-      <h3 className="title">{collection}</h3>
-      <h5 className="type">{title}</h5>
+     <Row className="align-items-center">
+        <Col xs={12} md={12} className="d-flex flex-column align-items-center text-center">
+          <h3 className="title">{collection}</h3>
+          <h5 className="type">{title}</h5>
+        </Col>
+        <Col xs={12} md={12} className="text-md-end mt- mt-md-0">
+          <Sort />
+        </Col>
+      </Row>  
       <Row className="products">
         {data.slice(0, visibleCount).map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
