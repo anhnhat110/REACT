@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Tạo một instance của Axios
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:1338/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 10000, // Thay đổi baseURL thành đường dẫn của API Strapi của bạn
   headers: {
     'Content-Type': 'application/json',

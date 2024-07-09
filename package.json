@@ -21,6 +21,7 @@
     "@stripe/stripe-js": "^4.0.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.5",
     "iconsax-react": "^0.0.8",
     "js-cookie": "^3.0.5",
     "meilisearch": "^0.40.0",

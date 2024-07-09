@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Image, Button, ListGroup, Form } from 'react-bootstrap';
 import { removeFromCart, updateQuantity } from '../Redux/cartSlice';
@@ -12,7 +11,7 @@ const ShoppingCart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 
-  const stripePromise = loadStripe('pk_test_51PXZjgGlooLglT1mbIJgE0lFKv7HLuWU68lS275g5O2QVBbDDmhcfHFZgZTfmYLtdL2OTAcA4pgHcOXOxcKv6JYs00lwV2u8Q1');
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
   const handlePayment = async () => {
     try {

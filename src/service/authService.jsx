@@ -3,7 +3,7 @@ import axiosInstance from "./axiosInstance";
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await axiosInstance.post("/auth/local", credentials);
+    const response = await axiosInstance.post(import.meta.env.VITE_AUTH_API, credentials);
     return response.data; // Assuming the response contains data with a `user` object
   } catch (error) {
     throw error.response.data; // Handle error response

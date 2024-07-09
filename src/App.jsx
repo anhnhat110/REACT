@@ -13,10 +13,9 @@ import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
 import Detail from "./Component/Detail";
 import { Header } from "./Component/Header";
-// import { FavProvider } from "./Component/FavContext";
-
 import SearchResults from "./Component/SearchResult";
 import Profile from "./Pages/Profile";
+import OrderSuccess from "./Pages/OrderSuccess";
 
 function App() {
   return (
@@ -34,6 +33,7 @@ function App() {
         <Route path="/products/:id" element={<Detail />} />
         <Route path="/shoppingcart" element={<ShoppingCart />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/success=true" element={<OrderSuccess />} />
         <Route path="/resetpassword" element={<ResetPass />} />
         <Route path="/register" element={<Register />} />
         <Route path="/search" element={<SearchResults />} />
