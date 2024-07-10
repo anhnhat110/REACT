@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Container, Button, Row, Col, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { removeFromFav } from "../Redux/wishlistSlice";
-import { addToCart } from "../Redux/cartSlice"; // Import addToCart action
+ // Import addToCart action
 import { HeartCircle } from "iconsax-react";
 import "../styles/WishList.css";
 

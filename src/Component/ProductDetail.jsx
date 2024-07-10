@@ -34,7 +34,7 @@ const ProductDetail = () => {
 
   const handleLiked = (item) => {
     if (!isLoggedIn) {
-      toast.error("You need to log in to add items to favorites");
+      toast.error("You need to log in");
       return;
     }
 
@@ -55,7 +55,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
-      toast.error("You need to log in to add items to favorites");
+      toast.error("You need to log in");
       return;
     }
     if (!selectedSize) {

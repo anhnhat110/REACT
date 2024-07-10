@@ -78,7 +78,7 @@ const ShoppingCart = () => {
               <Trash
                       size="20"
                       color="red"
-                      variant="TwoTone"
+                      variant="Bold"
                       onClick={() => handleRemoveFromCart(item.id, item.size)}
                       style={{ cursor: 'pointer' }}
                       className="trash-icon"

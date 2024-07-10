@@ -1,4 +1,4 @@
-import { useEffect, useState,useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Heart } from "iconsax-react";
 import { Link } from "react-router-dom";
@@ -6,38 +6,32 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
-import { fetchProducts } from "../service/productService"; // Import functions from productService
+import { fetchProductsLimit } from "../service/productService"; // Import functions from productService
 import PropTypes from "prop-types";
-import Sort from "./Sort";
 
-export default function Body({ title, collection, cat }) {
+export default function LandingPage({ title, collection, cat, limit }) {
   const [data, setData] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(8);
-  const [sort, setSort] = useState(null);
   const dispatch = useDispatch();
   const favItems = useSelector((state) => state.wishlist.favItems);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const fetchData = useCallback(async () => {
     try {
-      const products = await fetchProducts(cat, sort);
+      const products = await fetchProductsLimit(cat, limit);
       setData(products);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [cat, sort]);
+  }, [cat,limit]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const handleShowMore = () => {
-    setVisibleCount(visibleCount + 8);
-  };
-
+ 
   const handleLiked = (item) => {
     if (!isLoggedIn) {
-      toast.error("You need to log in");
+      toast.error("You need to log in to add items to favorites");
       return;
     }
 
@@ -58,17 +52,17 @@ export default function Body({ title, collection, cat }) {
 
   return (
     <Container>
-     <Row className="align-items-center">
+      <Row className="align-items-center">
         <Col xs={12} md={12} className="d-flex flex-column align-items-center text-center">
           <h3 className="title">{collection}</h3>
           <h5 className="type">{title}</h5>
         </Col>
         <Col xs={12} md={12} className="text-md-end mt- mt-md-0">
-          <Sort setSort={setSort} />
+
         </Col>
-      </Row>  
+      </Row>
       <Row className="products">
-        {data.slice(0, visibleCount).map((d) => (
+        {data.map((d) => (
           <Col key={d.id} sm={6} md={3} className="product-card">
             <Link
               to={`/products/${d.id}`}
@@ -105,24 +99,14 @@ export default function Body({ title, collection, cat }) {
           </Col>
         ))}
       </Row>
-      <div className="loading">
-        {visibleCount < data.length && (
-          <Button
-            variant="secondary"
-            onClick={handleShowMore}
-            className="show-more-button"
-          >
-            See more
-          </Button>
-        )}
-      </div>
     </Container>
   );
 }
 
-Body.propTypes = {
+LandingPage.propTypes = {
   API: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   collection: PropTypes.string.isRequired,
   cat: PropTypes.string.isRequired,
+  limit: PropTypes.number.isRequired,
 };

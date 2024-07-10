@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Pages/Home";
+import HomeBody from "./Component/HomeBody";
 import Men from "./Pages/Men";
 import Women from "./Pages/Women";
 import Boys from "./Pages/Boys";
@@ -22,8 +22,8 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<HomeBody />} />
+        <Route path="/home" element={<HomeBody />} />
         <Route path="/men" element={<Men />} />
         <Route path="/women" element={<Women />} />
         <Route path="/boys" element={<Boys />} />
