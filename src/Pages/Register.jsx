@@ -1,26 +1,22 @@
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import Footer from "../Component/Footer";
+import { registerUser } from "../service/registerService";
 
 export default function Register() {
   const initialUser = { username: "", password: "", email: "" };
   const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       if (user.username && user.email && user.password) {
-        const { data } = await axios.post(
-          "http://localhost:1338/api/auth/local/register",
-          user
-        );
+        const data = await registerUser(user);
         toast.success("Account created successfully!");
         localStorage.setItem("jwt", data.jwt);
         navigate("/login");

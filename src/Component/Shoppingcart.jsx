@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Image, Button, ListGroup, Form } from 'react-bootstrap';
+import { Container, Row, Col, Image, ListGroup, Form } from 'react-bootstrap';
 import { removeFromCart, updateQuantity } from '../Redux/cartSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import { loadStripe } from '@stripe/stripe-js';
@@ -107,14 +107,14 @@ const ShoppingCart = () => {
       </Row>
       <Row>
         <Col className="text-right">
-          <Button
-            variant="primary"
+          <button
+          
             size="lg"
-            className="button-checkout custom-checkout-btn"
+            className="custom-checkout-btn"
             onClick={handlePayment}
           >
             Checkout
-          </Button>
+          </button>
         </Col>
       </Row>
     </Container>

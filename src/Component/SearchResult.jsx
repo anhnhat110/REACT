@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance"; // Import axios instance đã tạo
-
-import { Row, Col, Container } from "react-bootstrap";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Row, Col, Container,Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
+import { Heart } from "iconsax-react";
 // Import các component Bootstrap cần thiết
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState([]);
   const location = useLocation();
+  const dispatch = useDispatch();
+  const favItems = useSelector((state) => state.wishlist.favItems);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const query = new URLSearchParams(location.search).get("query");
 
@@ -31,27 +38,72 @@ const SearchResults = () => {
     }
   }, [query]);
 
+  const handleLiked = (item) => {
+    if (!isLoggedIn) {
+      toast.error("You need to log in");
+      return;
+    }
+
+    const isFav = favItems.some((favItem) => favItem.id === item.id);
+    const product = {
+      id: item.id,
+      name: item.attributes.name,
+      image: item.attributes.image?.data[0]?.attributes.url,
+      price: item.attributes.price,
+    };
+
+    if (isFav) {
+      dispatch(removeFromFav(item.id));
+    } else {
+      dispatch(addToFav(product));
+    }
+  };
+
   return (
     <Container>
       <h3>Search Results: {searchResults.length} product </h3>
       <Row className="products">
         {searchResults.map((d) => (
-          <Col key={d.id} sm={6} md={3} className="product-card">
-            <Link
-              to={`/products/${d.id}`}
-              onClick={() => window.scrollTo(0, 0)}
-            >
-              <img
-                className="product-image"
-                src={`http://localhost:1338${d.attributes.image.data[0]?.attributes.url}`}
-                alt={d.attributes.name}
-              />
-            </Link>
-            <div className="product-info">
-              <div className="name">{d.attributes.name}</div>
-              <div>
-                Price: {Number(d.attributes.price).toLocaleString()} VND
+          <Col key={d.id} sm={6} md={3} className="img">
+            <div className="product-card">
+              <div className="product-card-detail">
+                {d.attributes.image && d.attributes.image.data.length > 0 && (
+                  <img
+                    className="product-image"
+                    src={`http://localhost:1338${d.attributes.image.data[0].attributes.url}`}
+                    alt={d.attributes.image.data[0].attributes.name}
+                  />
+                )}
+
+                <Button
+                  onClick={() => handleLiked(d)}
+                  className="heart-button"
+                  variant="light"
+                  size="sm"
+                >
+                  <Heart
+                    size="20"
+                    variant="Bold"
+                    color={
+                      favItems.some((favItem) => favItem.id === d.id)
+                        ? "red"
+                        : "black"
+                    }
+                  />
+                </Button>
+                <div className="product-info">
+                  <div className="name">{d.attributes.name}</div>
+                  <div>
+                    Price: {Number(d.attributes.price).toLocaleString()}$
+                  </div>
+                </div>
               </div>
+              <Link
+                to={`/products/${d.id}`}
+                onClick={() => window.scrollTo(0, 0)}
+              >
+                <a className="card-button">More info</a>
+              </Link>
             </div>
           </Col>
         ))}

@@ -1,6 +1,6 @@
-import { useEffect, useState,useCallback } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { Heart } from "iconsax-react";
+import { useEffect, useState, useCallback } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -8,7 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
 import { fetchProducts } from "../service/productService"; // Import functions from productService
 import PropTypes from "prop-types";
+import LogoHeart from "../assets/LogoHeart";
 import Sort from "./Sort";
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 export default function Body({ title, collection, cat }) {
   const [data, setData] = useState([]);
@@ -58,62 +62,62 @@ export default function Body({ title, collection, cat }) {
 
   return (
     <Container>
-     <Row className="align-items-center">
-        <Col xs={12} md={12} className="d-flex flex-column align-items-center text-center">
+      <Row className="align-items-center">
+        <Col
+          xs={6}
+          md={12}
+          className="d-flex flex-column align-items-center text-center"
+        >
           <h3 className="title">{collection}</h3>
           <h5 className="type">{title}</h5>
         </Col>
-        <Col xs={12} md={12} className="text-md-end mt- mt-md-0">
+        <Col xs={6} md={12} className="text-md-end mt- mt-md-0 mb-4">
           <Sort setSort={setSort} />
         </Col>
-      </Row>  
+      </Row>
       <Row className="products">
         {data.slice(0, visibleCount).map((d) => (
-          <Col key={d.id} sm={6} md={3} className="product-card">
-            <Link
-              to={`/products/${d.id}`}
-              onClick={() => window.scrollTo(0, 0)}
-            >
-              {d.attributes.image && d.attributes.image.data.length > 0 && (
-                <img
-                  className="product-image"
-                  src={`http://localhost:1338${d.attributes.image.data[0].attributes.url}`}
-                  alt={d.attributes.image.data[0].attributes.name}
-                />
-              )}
-            </Link>
-            <Button
-              onClick={() => handleLiked(d)}
-              className="heart-button"
-              variant="light"
-              size="sm"
-            >
-              <Heart
-                size="20"
-                variant="Bold"
-                color={
-                  favItems.some((favItem) => favItem.id === d.id)
-                    ? "red"
-                    : "black"
-                }
-              />
-            </Button>
-            <div className="product-info">
-              <div className="name">{d.attributes.name}</div>
-              <div>Price: {Number(d.attributes.price).toLocaleString()}$</div>
+          <Col key={d.id} xs={6} sm={6} md={3} className="img">
+            <div className="product-card" data-aos="zoom-in">
+              <div className="product-card-detail">
+                {d.attributes.image && d.attributes.image.data.length > 0 && (
+                  <img
+                    className="product-image"
+                    src={`http://localhost:1338${d.attributes.image.data[0].attributes.url}`}
+                    alt={d.attributes.image.data[0].attributes.name}
+                  />
+                )}
+
+                <LogoHeart
+                  className="heart-button-detail"
+                  isFav={favItems.some((favItem) => favItem.id === d.id)}
+                  onClick={() => handleLiked(d)}
+                ></LogoHeart>
+                <div className="product-info">
+                  <div className="name">{d.attributes.name}</div>
+                  <div>
+                    Price: {Number(d.attributes.price).toLocaleString()}$
+                  </div>
+                </div>
+              </div>
+              <Link
+                to={`/products/${d.id}`}
+                onClick={() => window.scrollTo(0, 0)}
+              >
+                <a className="card-button">More info</a>
+              </Link>
             </div>
           </Col>
         ))}
       </Row>
       <div className="loading">
         {visibleCount < data.length && (
-          <Button
-            variant="secondary"
-            onClick={handleShowMore}
-            className="show-more-button"
-          >
-            See more
-          </Button>
+          <button className="learn-more" onClick={handleShowMore}>
+            <span className="circle" aria-hidden="true">
+              <span className="icon arrow"></span>
+            </span>
+            <span className="button-text">Show More</span>
+          </button>
         )}
       </div>
     </Container>

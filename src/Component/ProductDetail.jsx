@@ -5,12 +5,12 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../Redux/cartSlice";
 import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
-import { Heart } from "iconsax-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchProductById } from "../service/productService";
 import "../styles/ProductDetail.css";
 import Body from "./Body";
+import LogoHeart from "../assets/LogoHeart";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -84,7 +84,7 @@ const ProductDetail = () => {
     <Container>
       <ToastContainer />
       <Row className="products">
-        <Col sm={6} md={3} className="product-card">
+        <Col sm={6} md={3}>
           {attributes.image && attributes.image.data.length > 0 && (
             <img
               className="product-image"
@@ -96,22 +96,11 @@ const ProductDetail = () => {
         <Col md={6} className="detail">
           <div className="product-title">
             <h1>{attributes.name}</h1>
-            <Button
-              onClick={() => handleLiked(data)}
+            <LogoHeart
               className="heart-button-detail"
-              variant="light"
-              size="sm"
-            >
-              <Heart
-                size="24"
-                variant="Bold"
-                color={
-                  favItems.some((favItem) => favItem.id === data.id)
-                    ? "red"
-                    : "black"
-                }
-              />
-            </Button>
+              isFav={favItems.some((favItem) => favItem.id === data.id)}
+              onClick={() => handleLiked(data)}
+            ></LogoHeart>
           </div>
           <p>{attributes.description}</p>
           <h6>Price: {Number(attributes.price).toLocaleString()}$</h6>
@@ -130,13 +119,9 @@ const ProductDetail = () => {
               </div>
             ))}
           </div>
-          <Button
-            variant="secondary"
-            className="button-add-to-cart"
-            onClick={handleAddToCart}
-          >
+          <a className="button-add-to-cart" onClick={handleAddToCart}>
             Add to Cart
-          </Button>
+          </a>
           <p>Call to Hotline: 0363652758</p>
         </Col>
       </Row>

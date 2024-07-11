@@ -4,13 +4,13 @@ import { fetchOrderLatest } from "../service/ordersService";
 import { useEffect, useState } from "react";
 import React from "react";
 import { TickCircle } from "iconsax-react";
+import Loading from "../assets/Loading";
 
 export default function OrderSuccess() {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- 
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -24,14 +24,17 @@ export default function OrderSuccess() {
       }
     };
     fetchOrder();
-  },);
+  });
   if (loading) {
-    return <p>Loading...</p>;
+    <Loading />;
   }
   if (error) {
     return <p>Error message : {error.message}</p>;
   }
-  const totalPrice = data.products.reduce((sum, product) => sum + parseFloat(product.price) * product.quantity, 0);
+  const totalPrice = data.products.reduce(
+    (sum, product) => sum + parseFloat(product.price) * product.quantity,
+    0
+  );
   return (
     <>
       <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
@@ -41,7 +44,8 @@ export default function OrderSuccess() {
               <Card className="border-top border-bottom border-3 border-color-custom">
                 <Card.Body className="p-5">
                   <h2 className="lead fw-bold mb-5" style={{ color: "black" }}>
-                    Purchase Receipt <TickCircle size="32" color="#157347" variant="Bold"/>
+                    Purchase Receipt{" "}
+                    <TickCircle size="32" color="#157347" variant="Bold" />
                   </h2>
                   <Row>
                     <Col className="mb-3">
@@ -83,11 +87,10 @@ export default function OrderSuccess() {
                     </Col>
                   </Row>
                   <Row className="d-flex justify-content-center">
-                  <Button onClick={() => navigate("/home")} variant="success">
-                    <h5>Back to Home</h5>
-                  </Button>
-                </Row>
-                  
+                    <Button onClick={() => navigate("/home")} variant="success">
+                      <h5>Back to Home</h5>
+                    </Button>
+                  </Row>
                 </Card.Body>
               </Card>
             </Col>

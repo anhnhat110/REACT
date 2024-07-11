@@ -9,65 +9,56 @@
 .products {
   display: flex;
 }
-.product-card {
-  position:relative;
-  text-align: center;
-  color: white;
-  margin-bottom: 20px;
-  overflow: hidden;
-}
 
 .product-image {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.3s ease;
+  border-radius: 1rem;
 }
 
-.product-card:hover .product-image {
-  transform:scale(1.05) /* Zoom ảnh khi di chuyển chuột vào */
+.img {
+  margin-bottom: 2rem;
 }
 
 .product-info {
   margin-top: 1rem;
-  color:black
+  color: black;
 }
 .product-info .name {
-  color:black;
+  color: black;
 }
 
-.product-card:hover .product-info {
-  opacity: 1; /* Hiển thị thông tin khi di chuyển chuột vào */
-}
 .name {
-  color: #E6E6DD;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-style:oblique
+  color: #e6e6dd;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-style: oblique;
 }
 .heart-button {
   position: absolute;
-  top: 0.5rem;
-  right: 1.3rem;
+  top: 1.7rem;
+  right: 1.8rem;
   background-color: transparent; /* Để nút không có nền */
   border: none; /* Để nút không có viền */
   cursor: pointer; /* Để con trỏ thành dạng pointer khi hover vào nút */
 }
 .loading {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   margin-bottom: 2rem;
 }
 .button-size {
-  margin-right: 1rem ;
+  margin-right: 1rem;
   display: inline-block;
 }
 .detail h6 {
   margin-bottom: 1rem;
 }
-.detail p { 
+.detail p {
   margin-top: 1rem;
 }
-.Checkout { 
+.Checkout {
   margin-top: 2rem;
   margin-left: 70rem;
   margin-bottom: 2rem;
@@ -100,4 +91,153 @@
 
 .cart p {
   margin: 0;
+}
+button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+button.learn-more {
+  width: 12rem;
+  height: auto;
+}
+
+button.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #8d8b7f;
+  border-radius: 1.625rem;
+}
+
+button.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+}
+
+button.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+}
+
+button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+}
+
+button.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: #8d8b7f;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+button:hover .circle {
+  width: 100%;
+}
+
+button:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(1rem, 0);
+}
+
+button:hover .button-text {
+  color: #fff;
+}
+
+.product-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background: #f5f5f5;
+  position: relative;
+  padding: 1rem;
+  border: 2px solid #c3c6ce;
+  -webkit-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
+  overflow: visible;
+  
+}
+
+.product-card-detail {
+  color: #8d8b7f;
+  height: 100%;
+  gap: 0.5em;
+  display: grid;
+  place-content: center;
+  font-family: "Courier New", Courier, monospace;
+  
+}
+
+.card-button {
+  text-decoration: none;
+  text-align: center;
+  -webkit-transform: translate(-50%, 125%);
+  -ms-transform: translate(-50%, 125%);
+  transform: translate(-50%, 125%);
+  width: 70%;
+  border-radius: 1rem;
+  border: none;
+  background-color: #8d8b7f;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  opacity: 0;
+  -webkit-transition: 0.3s ease-out;
+  transition: 0.3s ease-out;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/*Hover*/
+.product-card:hover {
+  border-color: #8d8b7f;
+  -webkit-box-shadow: 10px 5px 18px 0 rgba(255, 255, 255, 0.877);
+  box-shadow: 10px 5px 18px 0 rgba(255, 255, 255, 0.877);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.product-card:hover .card-button {
+  -webkit-transform: translate(-50%, 50%);
+  -ms-transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%);
+  opacity: 1;
 }

@@ -5,24 +5,26 @@ import {
   Navbar,
   Nav,
   Form,
-  Row,
-  Col,
   Button,
   Overlay,
   Popover,
+  NavItem,
 } from "react-bootstrap";
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
+import search from "../assets/search.png"
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   ShoppingCart as CartIcon,
-  SearchNormal,
   HeartTick,
   User,
   Shop,
   ArrowCircleRight,
 } from "iconsax-react";
 import ShoppingCart from "./Shoppingcart"; // Assuming ShoppingCart component displays cart items
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 export function Header() {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -30,9 +32,8 @@ export function Header() {
   const [query, setQuery] = useState("");
 
   const target = useRef(null);
-  // Chuyen huong
   const navigate = useNavigate();
-  // Hieu ung cho overlay - Shopping Cart
+
   const handleMouseEnter = () => {
     setShowOverlay(true);
   };
@@ -40,7 +41,7 @@ export function Header() {
   const handleMouseLeave = () => {
     setShowOverlay(false);
   };
-  // handleEvent Onclick - Search
+
   const searchProducts = async () => {
     try {
       navigate(`/search?query=${query}`);
@@ -48,6 +49,7 @@ export function Header() {
       console.error("Error navigating to search:", error);
     }
   };
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -60,11 +62,12 @@ export function Header() {
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand>
-            <img src={maverickLogo} alt="Maverick Logo" />
+            <img src={maverickLogo} alt="Maverick Logo" className="img-fluid" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
+            <NavItem></NavItem>
               <Nav.Link as={NavLink} to="/home" className="nav-button">
                 Home
               </Nav.Link>
@@ -80,34 +83,28 @@ export function Header() {
               <Nav.Link as={NavLink} to="/girls" className="nav-button">
                 Girls
               </Nav.Link>
-
-              <Form className="search">
-                <Row>
-                  <Col xs="auto">
-                    <Form.Control
-                      type="text"
-                      placeholder="Search"
-                      style={{ width: "300px" }}
-                      className="search-input mr-sm-2"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                    />
-                  </Col>
-                  <Col xs="auto">
-                    <Button variant="secondary" onClick={searchProducts}>
-                      <SearchNormal size="18" color="white" variant="Outline" />
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
+            </Nav>
+            <Form className="d-flex search">
+              <Form.Control
+                type="text"
+                placeholder="Search"
+                className="me-2"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+              <button onClick={searchProducts}>
+                <img src={search} className="search-icon"></img>
+              </button>
+            </Form>
+            <div className="d-flex align-items-center">
               <Button variant="light" as={NavLink} to="/login" className="icon">
                 <User size="18" color="Black" variant="Bold" />
               </Button>
-              <Button variant="light" as={NavLink} to="/checkout">
+              <Button variant="light" as={NavLink} to="/checkout" className="icon">
                 <Shop size="18" color="Black" variant="Bold" />
               </Button>
-              <Button variant="light" as={NavLink} to="/wishlist">
+              <Button variant="light" as={NavLink} to="/wishlist" className="icon">
                 <HeartTick size="18" color="Black" variant="Bold" />
               </Button>
               <Button
@@ -115,16 +112,15 @@ export function Header() {
                 ref={target}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className="position-relative"
+                className="position-relative icon"
               >
                 <span className="shopping-item">{cartItems.length}</span>
                 <CartIcon size="18" color="Black" variant="Bold" />
               </Button>
-            </Nav>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* Overlay - Shopping Cart */}
       <Overlay
         show={showOverlay}
         target={target.current}
