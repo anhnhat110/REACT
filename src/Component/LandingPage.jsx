@@ -94,7 +94,7 @@ export default function LandingPage({ title, collection, cat, limit }) {
                 to={`/products/${d.id}`}
                 onClick={() => window.scrollTo(0, 0)}
               >
-                <a className="card-button">More info</a>
+                <p className="card-button">More info</p>
               </Link>
             </div>
           </Col>
@@ -105,9 +105,7 @@ export default function LandingPage({ title, collection, cat, limit }) {
 }
 
 LandingPage.propTypes = {
-  API: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  collection: PropTypes.string.isRequired,
   cat: PropTypes.string.isRequired,
   limit: PropTypes.number.isRequired,
 };

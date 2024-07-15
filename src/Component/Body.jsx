@@ -26,12 +26,10 @@ export default function Body({ title, collection, cat }) {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const fetchData = useCallback(async () => {
-    try {
+   {
       const products = await fetchProducts(cat, sort,filters);
       setData(products);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    } 
   }, [cat, sort,filters]);
 
   useEffect(() => {
@@ -108,7 +106,7 @@ export default function Body({ title, collection, cat }) {
                 to={`/products/${d.id}`}
                 onClick={() => window.scrollTo(0, 0)}
               >
-                <a className="card-button">More info</a>
+                <p className="card-button">More info</p>
               </Link>
             </div>
           </Col>
@@ -130,7 +128,6 @@ export default function Body({ title, collection, cat }) {
 }
 
 Body.propTypes = {
-  API: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   collection: PropTypes.string.isRequired,
   cat: PropTypes.string.isRequired,

@@ -6,13 +6,13 @@ export const fetchProducts = async (category,sort=null,filters=[]) => {
   try {
     const sortParam = sort ? `&sort=${sort}` : '';
     let filterParams = '';
-    if (filters.length > 0) {
+    if (Array.isArray(filters) && filters.length > 0) {
       filterParams = filters.map((filter) => `&filters[types][name][$eq]=${filter}`).join('');
     }
     const response = await axiosInstance.get(`http://localhost:1338/api/products?populate=*&filters[categories][name][$eq]=${category}${filterParams}${sortParam}`);
     return response.data.data;
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách sản phẩm:', error);
+    console.error('Error', error);
     throw error;
   }
 };

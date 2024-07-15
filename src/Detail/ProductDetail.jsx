@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../Redux/cartSlice";
@@ -122,9 +121,9 @@ const ProductDetail = () => {
               </div>
             ))}
           </div>
-          <a className="button-add-to-cart" onClick={handleAddToCart}>
+          <p className="button-add-to-cart" onClick={handleAddToCart}>
             Add to Cart
-          </a>
+          </p>
           <p>Call to Hotline: 0363652758</p>
         </Col>
       </Row>
@@ -137,8 +136,6 @@ const ProductDetail = () => {
   );
 };
 
-ProductDetail.propTypes = {
-  url: PropTypes.string.isRequired,
-};
+
 
 export default ProductDetail;

@@ -18,7 +18,6 @@ import {
   ShoppingCart as CartIcon,
   HeartTick,
   User,
-  Shop,
   ArrowCircleRight,
 } from "iconsax-react";
 import ShoppingCart from "../ShoppingCart/Shoppingcart"; // Assuming ShoppingCart component displays cart items
