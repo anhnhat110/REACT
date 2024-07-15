@@ -67,7 +67,7 @@ export default function LandingPage({ title, collection, cat, limit }) {
       </Row>
       <Row className="products">
         {data.map((d) => (
-          <Col key={d.id} sm={6} md={3} className="img">
+          <Col key={d.id} xs={6} sm={6} md={3} className="img">
             <div className="product-card" data-aos="zoom-in-up" >
               <div className="product-card-detail" >
                 {d.attributes.image && d.attributes.image.data.length > 0 && (

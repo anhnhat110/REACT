@@ -1,10 +1,10 @@
-import { Row, Container, Col, Card, Button } from "react-bootstrap";
+import { Row, Container, Col, Card} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { fetchOrderLatest } from "../service/ordersService";
 import { useEffect, useState } from "react";
 import React from "react";
 import { TickCircle } from "iconsax-react";
-import Loading from "../assets/Loading";
+import "../styles/OrderSuccess.css";
 
 export default function OrderSuccess() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function OrderSuccess() {
     fetchOrder();
   });
   if (loading) {
-    <Loading />;
+    return <p>Loading...</p>;
   }
   if (error) {
     return <p>Error message : {error.message}</p>;
@@ -87,9 +87,12 @@ export default function OrderSuccess() {
                     </Col>
                   </Row>
                   <Row className="d-flex justify-content-center">
-                    <Button onClick={() => navigate("/home")} variant="success">
-                      <h5>Back to Home</h5>
-                    </Button>
+                    <button
+                      onClick={() => navigate("/home")}
+                      className="button-back-home"
+                    >
+                      Back to Home
+                    </button>
                   </Row>
                 </Card.Body>
               </Card>

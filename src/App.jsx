@@ -6,16 +6,17 @@ import Women from "./Pages/Women";
 import Boys from "./Pages/Boys";
 import Girls from "./Pages/Girls";
 import Login from "./Pages/Login";
-import ShoppingCart from "./Component/Shoppingcart";
+import ShoppingCart from "./ShoppingCart/Shoppingcart";
 import Wishlist from "./Pages/Wishlist";
 import ResetPass from "./Pages/ResetPass";
 import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
-import Detail from "./Component/Detail";
+import ProductDetail from "./Detail/ProductDetail";
 import { Header } from "./Component/Header";
-import SearchResults from "./Component/SearchResult";
+import SearchResults from "./Search/SearchResult";
 import Profile from "./Pages/Profile";
-import OrderSuccess from "./Pages/OrderSuccess";
+import OrderSuccess from "./Order/OrderSuccess";
+
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path="/girls" element={<Girls />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/products/:id" element={<Detail />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/shoppingcart" element={<ShoppingCart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/success=true" element={<OrderSuccess />} />

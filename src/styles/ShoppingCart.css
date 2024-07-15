@@ -21,6 +21,7 @@
   cursor: pointer;
   outline: none;
   margin-top: 1rem;
+  
 }
 
 .custom-checkout-btn:hover {
@@ -32,4 +33,10 @@
 
 .custom-checkout-btn:active {
   transform: translateY(-1px);
+}
+.products { 
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+.shopping-cart {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }

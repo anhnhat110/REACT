@@ -1,10 +1,13 @@
 .title {
   margin-top: 1rem;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight:bold;
 }
 .type {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   color: #5a6168;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
 .products {
   display: flex;
@@ -32,8 +35,9 @@
 
 .name {
   color: #e6e6dd;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-style: oblique;
+  font-weight: bold;
 }
 .heart-button {
   position: absolute;
@@ -200,8 +204,7 @@ button:hover .button-text {
   gap: 0.5em;
   display: grid;
   place-content: center;
-  font-family: "Courier New", Courier, monospace;
-  
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .card-button {
@@ -224,7 +227,7 @@ button:hover .button-text {
   -webkit-transition: 0.3s ease-out;
   transition: 0.3s ease-out;
   cursor: pointer;
-  font-family: "Courier New", Courier, monospace;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
 
 /*Hover*/
@@ -240,4 +243,8 @@ button:hover .button-text {
   -ms-transform: translate(-50%, 50%);
   transform: translate(-50%, 50%);
   opacity: 1;
+}
+.sort-dropdown {
+  display: flex;
+  justify-content: end;
 }

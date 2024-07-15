@@ -7,8 +7,10 @@ export default function Sort({ setSort }) {
   };
 
   return (
+    <>
+    <div className="sort-dropdown">
     <Dropdown>
-      <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+      <Dropdown.Toggle variant="dark" id="dropdown-basic">
         Sort
       </Dropdown.Toggle>
 
@@ -24,6 +26,8 @@ export default function Sort({ setSort }) {
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
+    </div>
+    </>
   );
 }
 

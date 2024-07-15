@@ -9,27 +9,30 @@ import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
 import { fetchProducts } from "../service/productService"; // Import functions from productService
 import PropTypes from "prop-types";
 import LogoHeart from "../assets/LogoHeart";
-import Sort from "./Sort";
+import Sort from "../Sort/Sort";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Filter from "../Filtering/Filter";
+import ScrollToTop from "../Scroll/ScrollToTop";
 AOS.init();
 
 export default function Body({ title, collection, cat }) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
   const [sort, setSort] = useState(null);
+  const [filters,setFilters] = useState(null)
   const dispatch = useDispatch();
   const favItems = useSelector((state) => state.wishlist.favItems);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const fetchData = useCallback(async () => {
     try {
-      const products = await fetchProducts(cat, sort);
+      const products = await fetchProducts(cat, sort,filters);
       setData(products);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [cat, sort]);
+  }, [cat, sort,filters]);
 
   useEffect(() => {
     fetchData();
@@ -71,7 +74,8 @@ export default function Body({ title, collection, cat }) {
           <h3 className="title">{collection}</h3>
           <h5 className="type">{title}</h5>
         </Col>
-        <Col xs={6} md={12} className="text-md-end mt- mt-md-0 mb-4">
+        <Col xs={6} md={12} className="d-flex justify-content-between align-items-center mt-0 mt-md-0 mb-4">
+          <Filter onFilterChange={setFilters}/>
           <Sort setSort={setSort} />
         </Col>
       </Row>
@@ -120,6 +124,7 @@ export default function Body({ title, collection, cat }) {
           </button>
         )}
       </div>
+      <ScrollToTop/>
     </Container>
   );
 }

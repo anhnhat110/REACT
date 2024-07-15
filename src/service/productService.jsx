@@ -2,10 +2,14 @@
 import axiosInstance from './axiosInstance';
 
 // Function để lấy danh sách sản phẩm
-export const fetchProducts = async (category,sort=null) => {
+export const fetchProducts = async (category,sort=null,filters=[]) => {
   try {
     const sortParam = sort ? `&sort=${sort}` : '';
-    const response = await axiosInstance.get(`http://localhost:1338/api/products?populate=*&filters[categories][name][$eq]=${category}${sortParam}`);
+    let filterParams = '';
+    if (filters.length > 0) {
+      filterParams = filters.map((filter) => `&filters[types][name][$eq]=${filter}`).join('');
+    }
+    const response = await axiosInstance.get(`http://localhost:1338/api/products?populate=*&filters[categories][name][$eq]=${category}${filterParams}${sortParam}`);
     return response.data.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách sản phẩm:', error);

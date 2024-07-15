@@ -55,10 +55,12 @@ const ShoppingCart = () => {
         draggable
         pauseOnHover
       />
+      <div className='shopping-cart'>
       <h1 className="shopping-cart-title fs-4">Shopping Cart</h1>
       <ListGroup variant="flush">
         {cartItems.map((item) => (
           <ListGroup.Item key={`${item.id}-${item.size}`} className="mb-3">
+          
             <Row className="g-0 align-items-center">
               <Col xs={4} md={4}>
                 <Image src={`http://localhost:1338${item.image}`} alt={item.name} fluid className="cart-image" />
@@ -83,6 +85,7 @@ const ShoppingCart = () => {
                       style={{ cursor: 'pointer' }}
                       className="trash-icon"
                     />
+                    
                 <div className="d-flex align-items-center justify-content-md-end">
                   <Form.Control
                     type="number"
@@ -95,7 +98,9 @@ const ShoppingCart = () => {
                 </div>
               </Col>
             </Row>
+   
           </ListGroup.Item>
+          
         ))}
       </ListGroup>
       <Row className="mt-3">
@@ -108,7 +113,6 @@ const ShoppingCart = () => {
       <Row>
         <Col className="text-right">
           <button
-          
             size="lg"
             className="custom-checkout-btn"
             onClick={handlePayment}
@@ -116,7 +120,7 @@ const ShoppingCart = () => {
             Checkout
           </button>
         </Col>
-      </Row>
+      </Row></div>
     </Container>
   );
 };

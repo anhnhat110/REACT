@@ -9,8 +9,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchProductById } from "../service/productService";
 import "../styles/ProductDetail.css";
-import Body from "./Body";
+import Body from "../Component/Body";
 import LogoHeart from "../assets/LogoHeart";
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -93,8 +96,8 @@ const ProductDetail = () => {
             />
           )}
         </Col>
-        <Col md={6} className="detail">
-          <div className="product-title">
+        <Col md={6} className="detail" >
+          <div className="product-title" >
             <h1>{attributes.name}</h1>
             <LogoHeart
               className="heart-button-detail"
@@ -103,7 +106,7 @@ const ProductDetail = () => {
             ></LogoHeart>
           </div>
           <p>{attributes.description}</p>
-          <h6>Price: {Number(attributes.price).toLocaleString()}$</h6>
+          <h5>Price: {Number(attributes.price).toLocaleString()}$</h5>
           <div>
             {attributes.size.map((size) => (
               <div

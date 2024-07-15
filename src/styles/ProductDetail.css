@@ -2,17 +2,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
   }
-
+.products { 
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
   
   .heart-button-detail{
     padding: 0;
     margin-right: 10rem;
     margin-bottom: 1rem;
+    
   }
   .button-add-to-cart {
     margin-top: 1rem;
+    
   }
   .button-add-to-cart {
     display: inline-block;
@@ -28,6 +32,7 @@
     overflow: hidden;
     z-index: 1;
     font-family: inherit;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
    }
    
    .button-add-to-cart::before {

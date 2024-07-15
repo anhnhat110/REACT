@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import {
   Container,
   Navbar,
@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import "../styles/Header.css";
 import maverickLogo from "../assets/Maverick.png";
-import search from "../assets/search.png"
+import search from "../assets/search.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   ShoppingCart as CartIcon,
@@ -21,13 +21,13 @@ import {
   Shop,
   ArrowCircleRight,
 } from "iconsax-react";
-import ShoppingCart from "./Shoppingcart"; // Assuming ShoppingCart component displays cart items
+import ShoppingCart from "../ShoppingCart/Shoppingcart"; // Assuming ShoppingCart component displays cart items
 import AOS from "aos";
 import "aos/dist/aos.css";
 AOS.init();
 
 export function Header() {
-  const cartItems = useSelector(state => state.cart.cartItems);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const [showOverlay, setShowOverlay] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -59,6 +59,7 @@ export function Header() {
 
   return (
     <>
+    <div className="header-container">
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand>
@@ -67,7 +68,7 @@ export function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-            <NavItem></NavItem>
+              <NavItem></NavItem>
               <Nav.Link as={NavLink} to="/home" className="nav-button">
                 Home
               </Nav.Link>
@@ -101,10 +102,20 @@ export function Header() {
               <Button variant="light" as={NavLink} to="/login" className="icon">
                 <User size="18" color="Black" variant="Bold" />
               </Button>
-              <Button variant="light" as={NavLink} to="/checkout" className="icon">
+              {/* <Button
+                variant="light"
+                as={NavLink}
+                to="/checkout"
+                className="icon"
+              >
                 <Shop size="18" color="Black" variant="Bold" />
-              </Button>
-              <Button variant="light" as={NavLink} to="/wishlist" className="icon">
+              </Button> */}
+              <Button
+                variant="light"
+                as={NavLink}
+                to="/wishlist"
+                className="icon"
+              >
                 <HeartTick size="18" color="Black" variant="Bold" />
               </Button>
               <Button
@@ -143,6 +154,7 @@ export function Header() {
           </Popover.Body>
         </Popover>
       </Overlay>
+      </div>
     </>
   );
 }

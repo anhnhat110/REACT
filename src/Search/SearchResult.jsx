@@ -3,10 +3,11 @@ import { useLocation, Link } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance"; // Import axios instance đã tạo
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Row, Col, Container,Button } from "react-bootstrap";
+import { Row, Col, Container, } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
-import { Heart } from "iconsax-react";
+import LogoHeart from "../assets/LogoHeart";
+
 // Import các component Bootstrap cần thiết
 
 const SearchResults = () => {
@@ -61,6 +62,7 @@ const SearchResults = () => {
 
   return (
     <Container>
+    <div className="search-result">
       <h3>Search Results: {searchResults.length} product </h3>
       <Row className="products">
         {searchResults.map((d) => (
@@ -75,22 +77,11 @@ const SearchResults = () => {
                   />
                 )}
 
-                <Button
+                <LogoHeart
+                  className="heart-button-detail"
+                  isFav={favItems.some((favItem) => favItem.id === d.id)}
                   onClick={() => handleLiked(d)}
-                  className="heart-button"
-                  variant="light"
-                  size="sm"
-                >
-                  <Heart
-                    size="20"
-                    variant="Bold"
-                    color={
-                      favItems.some((favItem) => favItem.id === d.id)
-                        ? "red"
-                        : "black"
-                    }
-                  />
-                </Button>
+                ></LogoHeart>
                 <div className="product-info">
                   <div className="name">{d.attributes.name}</div>
                   <div>
@@ -108,7 +99,9 @@ const SearchResults = () => {
           </Col>
         ))}
       </Row>
+      </div>
     </Container>
+    
   );
 };
 

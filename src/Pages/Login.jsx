@@ -38,7 +38,7 @@ export default function Login() {
   };
 
   const handleLogout = () => {
-    window.location.reload()
+    window.location.reload();
     dispatch(logout());
   };
 

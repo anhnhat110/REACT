@@ -1,5 +1,5 @@
 import Body from "../Component/Body";
-import Slide from "../Component/Slide";
+import Slide from "../Carousel/Slide";
 import Footer from "../Component/Footer";
 export default function Girls() {
   return (
