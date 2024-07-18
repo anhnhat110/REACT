@@ -14,11 +14,19 @@ import { ToastContainer } from "react-toastify";
 import ProductDetail from "./Detail/ProductDetail";
 import { Header } from "./Component/Header";
 import SearchResults from "./Search/SearchResult";
-import Profile from "./Pages/Profile";
-import OrderSuccess from "./Order/OrderSuccess";
 
+import OrderSuccess from "./Order/OrderSuccess";
+import { useDispatch } from "react-redux";
+import { checkAuthStatus } from "./Redux/authSlice";
+import { useEffect } from "react";
+import Profile from "./Profile/Profile";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, [dispatch]);
   return (
     <Router>
       <Header />

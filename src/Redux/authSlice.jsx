@@ -1,59 +1,75 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser } from "../service/authService";
 import { toast } from "react-toastify";
-
-const initialState = {
-  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
-  username: localStorage.getItem("username") || "",
-  loginError: null,
-};
+import authService from "../service/authService";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (user, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     try {
-      const response = await loginUser(user);
+      const response = await authService.login(credentials);
+      localStorage.setItem("token", response.jwt); // Lưu token vào localStorage
+      localStorage.setItem("user", JSON.stringify(response.user)); // Lưu thông tin người dùng vào localStorage
       return response;
     } catch (error) {
-      throw rejectWithValue(error); // Propagate error for handling in extraReducers
+      return rejectWithValue(error.response.data);
     }
+  }
+);
+
+export const checkAuthStatus = createAsyncThunk(
+  "auth/checkAuthStatus",
+  async () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (token && user) {
+      return { token, user };
+    }
+    throw new Error("No token or user found");
   }
 );
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    user: null,
+    isLoggedIn: false,
+    error: null,
+  },
   reducers: {
-    setUser: (state, action) => {
-      state.username = action.payload;
-    },
-    logout: (state) => {
+    logout(state) {
+      state.user = null;
       state.isLoggedIn = false;
-      state.username = "";
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("username");
+      localStorage.removeItem("token"); // Xóa token khi đăng xuất
+      localStorage.removeItem("user");
+      // Xóa thông tin người dùng khi đăng xuất
+      toast.info("You have logged out successfully");
+    },
+    setUser(state, action) {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
-        state.loginError = null; // Clear previous login errors
-      })
       .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload.user;
         state.isLoggedIn = true;
-        state.username = action.payload.user?.username;
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", action.payload.user?.username);
-        toast.success("Logged in successfully!");
+        state.error = null;
+        toast.success("Login successful");
       })
       .addCase(login.rejected, (state, action) => {
-        state.isLoggedIn = false; // Set isLoggedIn to false on login failure
-        state.loginError = action.payload.message;
-        localStorage.setItem("isLoggedIn", "false");
-        toast.error("Check your credentials");
+        state.error = action.payload;
+        toast.error("Login failed");
+      })
+      .addCase(checkAuthStatus.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.isLoggedIn = true;
+      })
+      .addCase(checkAuthStatus.rejected, (state) => {
+        state.user = null;
+        state.isLoggedIn = false;
       });
   },
 });
 
-export const { setUser, clearLoginError, logout } = authSlice.actions;
+export const { logout, setUser } = authSlice.actions;
 export default authSlice;

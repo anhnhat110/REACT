@@ -26,7 +26,6 @@
 }
 
 .product-info {
-  margin-top: 1rem;
   color: black;
 }
 .product-info .name {
@@ -222,7 +221,7 @@ button:hover .button-text {
   padding: 0.5rem 1rem;
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: 50%;
   opacity: 0;
   -webkit-transition: 0.3s ease-out;
   transition: 0.3s ease-out;

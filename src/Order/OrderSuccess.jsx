@@ -1,4 +1,4 @@
-import { Row, Container, Col, Card} from "react-bootstrap";
+import { Row, Container, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { fetchOrderLatest } from "../service/ordersService";
 import { useEffect, useState } from "react";

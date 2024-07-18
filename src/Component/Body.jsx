@@ -20,17 +20,17 @@ export default function Body({ title, collection, cat }) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
   const [sort, setSort] = useState(null);
-  const [filters,setFilters] = useState(null)
+  const [filters, setFilters] = useState(null);
   const dispatch = useDispatch();
   const favItems = useSelector((state) => state.wishlist.favItems);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const fetchData = useCallback(async () => {
-   {
-      const products = await fetchProducts(cat, sort,filters);
+    {
+      const products = await fetchProducts(cat, sort, filters);
       setData(products);
-    } 
-  }, [cat, sort,filters]);
+    }
+  }, [cat, sort, filters]);
 
   useEffect(() => {
     fetchData();
@@ -65,15 +65,19 @@ export default function Body({ title, collection, cat }) {
     <Container>
       <Row className="align-items-center">
         <Col
-          xs={6}
+          xs={4}
           md={12}
           className="d-flex flex-column align-items-center text-center"
         >
           <h3 className="title">{collection}</h3>
           <h5 className="type">{title}</h5>
         </Col>
-        <Col xs={6} md={12} className="d-flex justify-content-between align-items-center mt-0 mt-md-0 mb-4">
-          <Filter onFilterChange={setFilters}/>
+        <Col
+          xs={6}
+          md={12}
+          className="d-flex justify-content-between align-items-center mt-0 mt-md-0 mb-4"
+        >
+          <Filter onFilterChange={setFilters} />
           <Sort setSort={setSort} />
         </Col>
       </Row>
@@ -122,7 +126,7 @@ export default function Body({ title, collection, cat }) {
           </button>
         )}
       </div>
-      <ScrollToTop/>
+      <ScrollToTop />
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 // Lấy dữ liệu từ localStorage
 const getInitialState = () => {
@@ -24,12 +25,14 @@ export const cartSlice = createSlice({
       }
       // Cập nhật localStorage
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      toast.success("Added to cart");
     },
     removeFromCart: (state, action) => {
       const { id, size } = action.payload;
       state.cartItems = state.cartItems.filter(item => !(item.id === id && item.size === size));
       // Cập nhật localStorage
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      toast.error("Removed from cart");
     },
     updateQuantity: (state, action) => {
       const { id, size, quantity } = action.payload;
@@ -38,6 +41,7 @@ export const cartSlice = createSlice({
         itemToUpdate.quantity = quantity;
         // Cập nhật localStorage
         localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+        toast.info("Updated successfull")
       }
     },
   },

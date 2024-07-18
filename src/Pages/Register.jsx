@@ -10,7 +10,8 @@ export default function Register() {
   const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
-  const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setUser({ ...user, [e.target.name]: e.target.value });
 
   const handleRegister = async (e) => {
     e.preventDefault();

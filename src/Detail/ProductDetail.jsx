@@ -73,7 +73,6 @@ const ProductDetail = () => {
       quantity: 1, // Mặc định quantity là 1 khi thêm vào giỏ hàng
     };
     dispatch(addToCart(product));
-    toast.success("Added to cart");
   };
 
   if (!data) {
@@ -95,8 +94,8 @@ const ProductDetail = () => {
             />
           )}
         </Col>
-        <Col md={6} className="detail" >
-          <div className="product-title" >
+        <Col md={6} className="detail">
+          <div className="product-title">
             <h1>{attributes.name}</h1>
             <LogoHeart
               className="heart-button-detail"
@@ -135,7 +134,5 @@ const ProductDetail = () => {
     </Container>
   );
 };
-
-
 
 export default ProductDetail;

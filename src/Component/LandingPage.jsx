@@ -8,8 +8,8 @@ import { addToFav, removeFromFav } from "../Redux/wishlistSlice";
 import { fetchProductsLimit } from "../service/productService"; // Import functions from productService
 import PropTypes from "prop-types";
 import LogoHeart from "../assets/LogoHeart";
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import AOS from "aos";
+import "aos/dist/aos.css";
 AOS.init();
 
 export default function LandingPage({ title, collection, cat, limit }) {
@@ -68,8 +68,8 @@ export default function LandingPage({ title, collection, cat, limit }) {
       <Row className="products">
         {data.map((d) => (
           <Col key={d.id} xs={6} sm={6} md={3} className="img">
-            <div className="product-card" data-aos="zoom-in-up" >
-              <div className="product-card-detail" >
+            <div className="product-card" data-aos="zoom-in-up">
+              <div className="product-card-detail">
                 {d.attributes.image && d.attributes.image.data.length > 0 && (
                   <img
                     className="product-image"
