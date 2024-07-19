@@ -8,7 +8,7 @@ import Girls from "./Pages/Girls";
 import Login from "./Pages/Login";
 import ShoppingCart from "./ShoppingCart/Shoppingcart";
 import Wishlist from "./Pages/Wishlist";
-import ResetPass from "./Pages/ResetPass";
+
 import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
 import ProductDetail from "./Detail/ProductDetail";
@@ -43,7 +43,7 @@ function App() {
         <Route path="/shoppingcart" element={<ShoppingCart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/success=true" element={<OrderSuccess />} />
-        <Route path="/resetpassword" element={<ResetPass />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/search" element={<SearchResults />} />
       </Routes>

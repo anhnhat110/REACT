@@ -119,6 +119,7 @@ submit {
 .header-container {
   margin-left: 2rem;
 }
-.me-1 {
+
+.icon-logout { 
   font-family: 'Times New Roman', Times, serif;
 }

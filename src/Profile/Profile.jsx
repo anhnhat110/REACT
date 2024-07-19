@@ -1,34 +1,56 @@
-import { useState, useEffect } from 'react';
-import { Tabs, Tab, Container, Form, Button, ListGroup, Card, Spinner, Alert } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import './Profile.css';
-import { changePassword } from '../Redux/changeSlice';
-import { fetchOrdersByUsername } from '../service/ordersService';
+import { useState, useEffect } from "react";
+import {
+  Tabs,
+  Tab,
+  Container,
+  Form,
+  Button,
+  ListGroup,
+  Card,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+import { fetchOrdersByUsername } from "../service/ordersService";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../Redux/changeSlice";
+import "bootstrap/dist/css/bootstrap.min.css";
+import authService from "../service/authService";
+import { toast } from "react-toastify";
+import "../styles/Profile.css"
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
-  const orders = useSelector((state) => state.orders.orders);
-  const ordersLoading = useSelector((state) => state.orders.loading);
-  const ordersError = useSelector((state) => state.orders.error);
+  const [data, setData] = useState([]);
+  const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const username = localStorage.getItem('username');
-  const email = localStorage.getItem('email');
+  // Lấy dữ liệu người dùng từ localStorage
+  const [name, setName] = useState(localStorage.getItem("name") || "");
+  const [phone, setPhone] = useState(localStorage.getItem("phone") || "");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [name, setName] = useState(localStorage.getItem('name') || '');
-  const [phone, setPhone] = useState(localStorage.getItem('phone') || '');
+  const userID = localStorage.getItem("userID");
+  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
 
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSaveChanges = (e) => {
+  const handleSaveChanges = async (e) => {
     e.preventDefault();
-    localStorage.setItem('name', name);
-    localStorage.setItem('phone', phone);
-  };
+    const userData = {
+      name: name,
+      phone: phone,
+    };
+    try {
+      const updatedUser = await authService.update(userID, userData);
+      setName(updatedUser.name);
+      setPhone(updatedUser.phone);
+      toast.success("Update information successfully");
+    } catch (error) {
+      console.error("Update information failed:", error);
+      toast.error("Update information failed");
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,24 +58,46 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    if (username) {
-      dispatch(fetchOrdersByUsername(username));
-    }
-  }, [dispatch, username]);
+    const fetchOrders = async () => {
+      setLoading(true);
+      try {
+        const orders = await fetchOrdersByUsername(username);
+        setData(orders);
+        setLoading(false);
+      } catch (error) {
+        setErrors(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [username]);
 
   return (
     <Container className="profile-container">
-      {isLoggedIn ? (
-        <Tabs defaultActiveKey="info" id="profile-tabs" className="mb-3 profile-tabs">
-          <Tab eventKey="info" title="Info">
+      {username ? (
+        <Tabs
+          defaultActiveKey="info"
+          id="profile-tabs"
+          className="mb-3 profile-tabs"
+        >
+          <Tab eventKey="info" title="Information">
             <Card className="profile-card">
               <Card.Body>
                 <h4 className="card-title">User Information</h4>
                 <ListGroup variant="flush">
-                  <ListGroup.Item><strong>Username:</strong> {username}</ListGroup.Item>
-                  <ListGroup.Item><strong>Name:</strong> {name}</ListGroup.Item>
-                  <ListGroup.Item><strong>Email:</strong> {email}</ListGroup.Item>
-                  <ListGroup.Item><strong>Phone:</strong> {phone}</ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Username:</strong> {username}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Name:</strong> {name}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Email:</strong> {email}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Phone:</strong> {phone}
+                  </ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Card>
@@ -89,7 +133,11 @@ export default function Profile() {
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </Form.Group>
-                  <Button variant="secondary" type="submit" className="mt-3 button-secondary">
+                  <Button
+                    variant="secondary"
+                    type="submit"
+                    className="mt-3 button-secondary"
+                  >
                     Save Changes
                   </Button>
                 </Form>
@@ -100,20 +148,23 @@ export default function Profile() {
             <Card className="profile-card">
               <Card.Body>
                 <h4 className="card-title">Order History</h4>
-                {ordersLoading ? (
+                {loading ? (
                   <Spinner animation="border" />
-                ) : ordersError ? (
-                  <Alert variant="danger">{ordersError}</Alert>
+                ) : errors ? (
+                  <Alert variant="danger">{errors}</Alert>
                 ) : (
                   <ListGroup variant="flush">
-                    {orders.data.length > 0 ? (
-                      orders.data.map((order) => (
+                    {data.length > 0 ? (
+                      data.map((order) => (
                         <ListGroup.Item key={order.id}>
                           <strong>Order #{order.id}</strong>
                           <ul>
                             {order.attributes.products.map((product) => (
                               <li key={product.id}>
-                                <strong>Name:</strong> {product.name}, <strong>Size:</strong> {product.size}, <strong>Price:</strong> ${product.price}, <strong>Quantity:</strong> {product.quantity}
+                                <strong>Name:</strong> {product.name},{" "}
+                                <strong>Size:</strong> {product.size},{" "}
+                                <strong>Price:</strong> ${product.price},{" "}
+                                <strong>Quantity:</strong> {product.quantity}
                               </li>
                             ))}
                           </ul>
@@ -159,10 +210,23 @@ export default function Profile() {
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                   </Form.Group>
-                  <Button variant="secondary" type="submit" className="mt-3 button-secondary" disabled={loading}>
-                    {loading ? <Spinner animation="border" size="sm" /> : 'Change Password'}
+                  <Button
+                    variant="secondary"
+                    type="submit"
+                    className="mt-3 button-secondary"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Spinner animation="border" size="sm" />
+                    ) : (
+                      "Change Password"
+                    )}
                   </Button>
-                  {error && <Alert variant="danger" className="mt-3">{error.message}</Alert>}
+                  {errors && (
+                    <Alert variant="danger" className="mt-3">
+                      {errors}
+                    </Alert>
+                  )}
                 </Form>
               </Card.Body>
             </Card>
@@ -171,7 +235,9 @@ export default function Profile() {
       ) : (
         <Card className="profile-card">
           <Card.Body>
-            <h4 className="card-title">You need to log in to use this activity</h4>
+            <h4 className="card-title">
+              You need to log in to use this activity
+            </h4>
           </Card.Body>
         </Card>
       )}

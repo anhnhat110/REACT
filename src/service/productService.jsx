@@ -30,7 +30,7 @@ export const fetchProductById = async (productId) => {
 
 export const fetchProductsLimit = async (category,limit) => {
   try {
-    const response = await axiosInstance.get(`http://localhost:1338/api/products?populate=*&filters[categories][name][$eq]=${category}&pagination[limit]=${limit}`);
+    const response = await axiosInstance.get(`/products?populate=*&filters[categories][name][$eq]=${category}&pagination[limit]=${limit}`);
     return response.data.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách sản phẩm:', error);

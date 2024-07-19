@@ -108,4 +108,5 @@ LandingPage.propTypes = {
   title: PropTypes.string.isRequired,
   cat: PropTypes.string.isRequired,
   limit: PropTypes.number.isRequired,
+  
 };

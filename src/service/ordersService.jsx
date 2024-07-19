@@ -1,5 +1,4 @@
 import axiosInstance from './axiosInstance';
-import { setOrders, setOrdersLoading, setOrdersError } from '../Redux/orderSlice';
 
 // Function để tạo đơn hàng mới
 export const createOrder = async (products) => {
@@ -26,16 +25,13 @@ export const fetchOrderLatest = async () => {
     throw error;
   }
 };
-export const fetchOrdersByUsername = (username) => async (dispatch) => {
+export const fetchOrdersByUsername = async (username) => {
   try {
-    dispatch(setOrdersLoading(true));
     const response = await axiosInstance.get(`/orders?filters[username][$eq]=${username}`);
-    dispatch(setOrders(response.data));
+    return response.data.data;
   } catch (error) {
     console.error('Error fetching orders:', error);
-    dispatch(setOrdersError(error.message));
-  } finally {
-    dispatch(setOrdersLoading(false));
+    throw error;
   }
 };
 
