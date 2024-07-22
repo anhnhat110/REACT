@@ -8,7 +8,7 @@ export const login = createAsyncThunk(
     try {
       const response = await authService.login(credentials);
       localStorage.setItem("token", response.jwt); // Lưu token vào localStorage
-      localStorage.setItem("user", JSON.stringify(response.user)); // Lưu thông tin người dùng vào localStorage
+      localStorage.setItem("user", response.user); // Lưu thông tin người dùng vào localStorage
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);

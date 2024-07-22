@@ -7,12 +7,14 @@ import changeSlice from "./changeSlice";
 
 
 
+
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     cart : cartSlice.reducer,
     wishlist : wishlistSlice.reducer ,
     change : changeSlice.reducer,
+
 
   },
 });

@@ -37,7 +37,7 @@ export default function Register() {
             <Col md={8} lg={6} xl={5}>
               <div className="card shadow-sm">
                 <div className="card-body p-4">
-                  <h1 className="mb-4 text-center">Sign up</h1>
+                  <h1 className="mb-4 text-center">Register</h1>
                   <Form onSubmit={handleRegister}>
                     <Form.Group controlId="formBasicUsername" className="mb-3">
                       <Form.Label>Username</Form.Label>

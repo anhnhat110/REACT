@@ -11,12 +11,12 @@ import {
   Alert,
 } from "react-bootstrap";
 import { fetchOrdersByUsername } from "../service/ordersService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "../Redux/changeSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
 import authService from "../service/authService";
 import { toast } from "react-toastify";
-import "../styles/Profile.css"
+import "../styles/Profile.css";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -24,17 +24,19 @@ export default function Profile() {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Lấy dữ liệu người dùng từ localStorage
-  const [name, setName] = useState(localStorage.getItem("name") || "");
-  const [phone, setPhone] = useState(localStorage.getItem("phone") || "");
+  const { user } = useSelector((state) => state.auth);
+  const username = user?.username || 'N/A';
+  const email = user?.email || 'N/A';
+  const userID = user?.id || 'N/A';
+
+  // State for editing user information
+  const [name, setName] = useState(user?.name || "");
+  const [phone, setPhone] = useState(user?.phone || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const userID = localStorage.getItem("userID");
-  const username = localStorage.getItem("username");
-  const email = localStorage.getItem("email");
-
+  // Save user changes
   const handleSaveChanges = async (e) => {
     e.preventDefault();
     const userData = {
@@ -45,18 +47,27 @@ export default function Profile() {
       const updatedUser = await authService.update(userID, userData);
       setName(updatedUser.name);
       setPhone(updatedUser.phone);
+      // Update localStorage with new values
+      localStorage.setItem("name", updatedUser.name);
+      localStorage.setItem("phone", updatedUser.phone);
       toast.success("Update information successfully");
     } catch (error) {
       console.error("Update information failed:", error);
       toast.error("Update information failed");
     }
-  }
+  };
 
+  // Change password
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
     dispatch(changePassword({ currentPassword, newPassword, confirmPassword }));
   };
 
+  // Fetch orders by username
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
