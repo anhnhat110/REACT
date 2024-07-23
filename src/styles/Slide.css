@@ -1,9 +1,37 @@
-.background { 
-    width:82rem;
-    max-height: 40rem;
-    margin-left: 4rem;
+/* Slide.css */
+
+.Slide .carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 979px) {
+  .Slide .carousel-item img {
+    width: 100%;
+    height: auto;
   }
-  .Slide h3 {
-    color: white;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+
+  .Slide .carousel-caption h3 {
+    font-size: 1.5rem;
   }
+
+  .Slide .carousel-caption p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 470px) {
+  .Slide .carousel-item img {
+    max-width: 300%;
+    width: 150%;
+    min-height: 300px;
+  }
+
+  .Slide .carousel-caption h3 {
+    font-size: 1rem;
+  }
+
+  .Slide .carousel-caption p {
+    font-size: 0.875rem;
+  }
+}

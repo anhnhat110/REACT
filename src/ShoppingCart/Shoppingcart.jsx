@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Image, ListGroup, Form } from "react-bootstrap";
 import { removeFromCart, updateQuantity } from "../Redux/cartSlice";
-import { toast, ToastContainer } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import axiosInstance from "../service/axiosInstance";
 import { Trash } from "iconsax-react";
@@ -23,10 +22,8 @@ const ShoppingCart = () => {
       await stripe.redirectToCheckout({
         sessionId: res.data.stripeSession.id,
       });
-      toast.success("Payment successful!");
     } catch (err) {
       console.error(err);
-      toast.error("Error processing payment.");
     }
   };
 
@@ -49,22 +46,10 @@ const ShoppingCart = () => {
 
   const handleRemoveFromCart = (productId, productSize) => {
     dispatch(removeFromCart({ id: productId, size: productSize }));
-    toast.error("Removed from cart");
   };
 
   return (
     <Container className="p-0">
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <div className="shopping-cart">
         <h1 className="shopping-cart-title fs-4">Shopping Cart</h1>
         <ListGroup variant="flush">
@@ -79,7 +64,7 @@ const ShoppingCart = () => {
                     className="cart-image"
                   />
                 </Col>
-                <Col xs={8} md={6}>
+                <Col xs={4} md={6}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <h6 className="fs-5">{item.name}</h6>
@@ -94,7 +79,7 @@ const ShoppingCart = () => {
                     </div>
                   </div>
                 </Col>
-                <Col xs={12} md={2}>
+                <Col xs={4} md={2}>
                   <Trash
                     size="20"
                     color="red"

@@ -70,7 +70,7 @@ const SearchResults = () => {
         </h3>
         <Row className="products">
           {searchResults.map((d) => (
-            <Col key={d.id} sm={6} md={3} className="img">
+            <Col key={d.id}  xs={6} sm={6} md={3} className="img">
               <div className="product-card">
                 <div className="product-card-detail">
                   {d.attributes.image && d.attributes.image.data.length > 0 && (

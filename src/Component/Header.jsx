@@ -157,11 +157,9 @@ export function Header() {
             id="popover-contained"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            style={{ width: "450px", maxWidth: "450px" }}
           >
             <Popover.Header as="h3" className="popover-header">
               Shopping Cart
-              <ArrowCircleRight size="20" color="Black" className="arrow" />
             </Popover.Header>
             <Popover.Body className="popover-body">
               <ShoppingCart />

@@ -17,6 +17,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import authService from "../service/authService";
 import { toast } from "react-toastify";
 import "../styles/Profile.css";
+import { setUser } from "../Redux/authSlice"; // Import setUser action
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -30,11 +31,19 @@ export default function Profile() {
   const userID = user?.id || 'N/A';
 
   // State for editing user information
-  const [name, setName] = useState(user?.name || "");
-  const [phone, setPhone] = useState(user?.phone || "");
+  const [name, setName] = useState(localStorage.getItem("name") || user?.name);
+  const [phone, setPhone] = useState(localStorage.getItem("phone") || user?.phone);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    // Update local state with Redux user state
+    if (user) {
+      setName(user.name);
+      setPhone(user.phone);
+    }
+  }, [user]);
 
   // Save user changes
   const handleSaveChanges = async (e) => {
@@ -47,6 +56,8 @@ export default function Profile() {
       const updatedUser = await authService.update(userID, userData);
       setName(updatedUser.name);
       setPhone(updatedUser.phone);
+      // Update Redux state
+      dispatch(setUser(updatedUser));
       // Update localStorage with new values
       localStorage.setItem("name", updatedUser.name);
       localStorage.setItem("phone", updatedUser.phone);
@@ -244,13 +255,9 @@ export default function Profile() {
           </Tab>
         </Tabs>
       ) : (
-        <Card className="profile-card">
-          <Card.Body>
-            <h4 className="card-title">
-              You need to log in to use this activity
-            </h4>
-          </Card.Body>
-        </Card>
+        <Alert variant="danger" className="mt-3">
+          You need to log in to view this page.
+        </Alert>
       )}
     </Container>
   );

@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
-import authService from "../service/authService";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import authService from '../service/authService';
 
 export const login = createAsyncThunk(
-  "auth/login",
+  'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await authService.login(credentials);
-      localStorage.setItem("token", response.jwt); // Lưu token vào localStorage
-      localStorage.setItem("user", response.user); // Lưu thông tin người dùng vào localStorage
+      localStorage.setItem('token', response.jwt);
+      localStorage.setItem('user', JSON.stringify(response.user)); // Store user data as a JSON string
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -17,19 +17,19 @@ export const login = createAsyncThunk(
 );
 
 export const checkAuthStatus = createAsyncThunk(
-  "auth/checkAuthStatus",
+  'auth/checkAuthStatus',
   async () => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user')); // Parse JSON string to object
     if (token && user) {
       return { token, user };
     }
-    throw new Error("No token or user found");
+    throw new Error('No token or user found');
   }
 );
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
     user: null,
     isLoggedIn: false,
@@ -39,10 +39,9 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.isLoggedIn = false;
-      localStorage.removeItem("token"); // Xóa token khi đăng xuất
-      localStorage.removeItem("user");
-      // Xóa thông tin người dùng khi đăng xuất
-      toast.info("You have logged out successfully");
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      toast.info('You have logged out successfully');
     },
     setUser(state, action) {
       state.user = action.payload;
@@ -54,11 +53,11 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.isLoggedIn = true;
         state.error = null;
-        toast.success("Login successful");
+        toast.success('Login successful');
       })
       .addCase(login.rejected, (state, action) => {
         state.error = action.payload;
-        toast.error("Login failed");
+        toast.error('Login failed');
       })
       .addCase(checkAuthStatus.fulfilled, (state, action) => {
         state.user = action.payload.user;

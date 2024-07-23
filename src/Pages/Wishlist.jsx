@@ -29,14 +29,14 @@ const Wishlist = () => {
           favItems.map((item, index) => (
             <ListGroup.Item key={index} className="wishlist-item">
               <Row className="align-items-center">
-                <Col xs={2}>
+                <Col xs={2} md={2} lg={2}>
                   <img
                     src={`http://localhost:1338${item.image}`}
                     alt={item.name}
                     className="wishlist-item-image"
                   />
                 </Col>
-                <Col xs={7}>
+                <Col xs={7} md={7} lg={7}>
                   <div className="wishlist-item-details-horizontal">
                     <p className="wishlist-item-name">{item.name}</p>
                     <p className="wishlist-item-details">ID: {item.id}</p>
@@ -45,7 +45,7 @@ const Wishlist = () => {
                     </p>
                   </div>
                 </Col>
-                <Col xs={3} className="text-right">
+                <Col xs={3} md={3} lg={3}className="text-right">
                   <Button
                     variant="danger"
                     size="sm"

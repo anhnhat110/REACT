@@ -16,4 +16,49 @@
 .wishlist-item-remove {
     margin-right: 1rem;
 }
-  
+  /* Base styles */
+.wishlist-container {
+  padding: 20px;
+}
+
+.wishlist-item-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.wishlist-item-details-horizontal {
+  display: flex;
+  flex-direction: column; /* Default to column on small screens */
+  align-items: flex-start;
+}
+
+.wishlist-item-details-horizontal p {
+  margin-bottom: 0.5rem;
+  white-space: nowrap; /* Keeps text in one line */
+}
+
+/* Responsive styles */
+@media (min-width: 576px) {
+  .wishlist-item-details-horizontal {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wishlist-item-details-horizontal p {
+    margin-right: 10px;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .wishlist-item-remove {
+    margin-right: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .wishlist-item-image {
+    max-width: 100px; /* Fixed size for larger screens */
+  }
+}
