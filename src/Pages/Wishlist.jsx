@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Container, Button, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Button, Row, Col, ListGroup,Alert} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { removeFromFav } from "../Redux/wishlistSlice";
  // Import addToCart action
@@ -17,14 +17,16 @@ const Wishlist = () => {
   return (
     <Container className="wishlist-container">
       <Row>
-        <HeartCircle size="40" color="Red" />
+        <HeartCircle size="40" color="Black" />
       </Row>
       <div className="top-wishlist">
         <h1 className="text-wishlist">My Wishlist</h1>
       </div>
       <ListGroup className="wishlist-list">
         {favItems.length === 0 ? (
-          <Row>Your wishlist is empty</Row>
+          <Alert variant="danger" className="mt-3">
+          You need to log in to view this page.
+        </Alert>
         ) : (
           favItems.map((item, index) => (
             <ListGroup.Item key={index} className="wishlist-item">

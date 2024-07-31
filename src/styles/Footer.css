@@ -1,3 +1,47 @@
 .footer {
-    background-color: #E6E6DD;
-}
+    background-color: #343a40;
+    color: #fff;
+    padding: 40px 0;
+  }
+  
+  .footer h5 {
+    margin-bottom: 20px;
+  }
+  
+  .footer p, .footer a {
+    color: #adb5bd;
+  }
+  
+  .footer a {
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    color: #8D8B7F;
+  }
+  
+  .footer ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .footer ul li {
+    margin-bottom: 10px;
+  }
+  
+  .footer ul li a {
+    color: #adb5bd;
+  }
+  
+  .footer ul li a:hover {
+    color: #8D8B7F;
+  }
+  
+  .footer .text-center {
+    margin-top: 30px;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+  

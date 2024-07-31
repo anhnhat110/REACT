@@ -62,7 +62,7 @@ const SearchResults = () => {
   };
 
   return (
-    <Container>
+    <Container className="search-container">
       <div className="search-result">
         <h3>
           Search Results: {searchResults.length} product{" "}

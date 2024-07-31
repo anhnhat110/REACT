@@ -2,8 +2,8 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import Footer from "../Component/Footer";
 import { registerUser } from "../service/registerService";
+import "../styles/Register.css"
 
 export default function Register() {
   const initialUser = { username: "", password: "", email: "" };
@@ -32,7 +32,7 @@ export default function Register() {
   return (
     <div>
       <section className="vh-200 d-flex align-items-center justify-content-center bg-light">
-        <Container>
+        <Container className="register-container">
           <Row className="d-flex justify-content-center">
             <Col md={8} lg={6} xl={5}>
               <div className="card shadow-sm">
@@ -100,7 +100,6 @@ export default function Register() {
         </Container>
         <Outlet />
       </section>
-      <Footer />
     </div>
   );
 }

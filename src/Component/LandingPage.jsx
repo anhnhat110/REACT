@@ -33,7 +33,7 @@ export default function LandingPage({ title, collection, cat, limit }) {
 
   const handleLiked = (item) => {
     if (!isLoggedIn) {
-      toast.error("You need to log in to add items to favorites");
+      toast.error("You need to log in");
       return;
     }
 

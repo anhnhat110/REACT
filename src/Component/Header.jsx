@@ -20,7 +20,6 @@ import {
   ShoppingCart as CartIcon,
   HeartTick,
   User,
-  ArrowCircleRight,
 } from "iconsax-react";
 import ShoppingCart from "../ShoppingCart/Shoppingcart"; // Assuming ShoppingCart component displays cart items
 import AOS from "aos";

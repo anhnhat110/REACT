@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { login, setUser, logout } from "../Redux/authSlice";
+import "../styles/Login.css"
 
 export default function Login() {
   const { isLoggedIn, username } = useSelector((state) => state.auth);
@@ -44,7 +45,7 @@ export default function Login() {
   return (
     <div>
       <section className="vh-200 d-flex align-items-center justify-content-center bg-light">
-        <Container>
+        <Container className="login-container">
           <Row className="d-flex justify-content-center">
             <Col md={8} lg={6} xl={4}>
               <div className="card shadow-sm">

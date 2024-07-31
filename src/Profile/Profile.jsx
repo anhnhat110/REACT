@@ -9,6 +9,7 @@ import {
   Card,
   Spinner,
   Alert,
+  Row
 } from "react-bootstrap";
 import { fetchOrdersByUsername } from "../service/ordersService";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +18,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import authService from "../service/authService";
 import { toast } from "react-toastify";
 import "../styles/Profile.css";
-import { setUser } from "../Redux/authSlice"; // Import setUser action
+import { setUser } from "../Redux/authSlice"; // Import setUser 
+import { UserSquare } from "iconsax-react";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -26,16 +28,25 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
-  const username = user?.username || 'N/A';
-  const email = user?.email || 'N/A';
-  const userID = user?.id || 'N/A';
+  const username = user?.username || "N/A";
+  const email = user?.email || "N/A";
+  const userID = user?.id || "N/A";
+
+  useEffect(() => {
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+    localStorage.setItem("userID", userID);
+  }, [username, email, userID]);
 
   // State for editing user information
   const [name, setName] = useState(localStorage.getItem("name") || user?.name);
-  const [phone, setPhone] = useState(localStorage.getItem("phone") || user?.phone);
+  const [phone, setPhone] = useState(
+    localStorage.getItem("phone") || user?.phone
+  );
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // Update local state with Redux user state
@@ -96,8 +107,15 @@ export default function Profile() {
   }, [username]);
 
   return (
-    <Container className="profile-container">
-      {username ? (
+    <>
+    <Container className="wishlist-container">
+    <Row>
+        <UserSquare size="40" color="Black" />
+      </Row>
+      <div className="top-wishlist">
+        <h1 className="text-wishlist">My Profile</h1>
+      </div>
+      {isLoggedIn ? (
         <Tabs
           defaultActiveKey="info"
           id="profile-tabs"
@@ -118,7 +136,7 @@ export default function Profile() {
                     <strong>Email:</strong> {email}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <strong>Phone:</strong> {phone}
+                    <strong>Phone number:</strong> {phone}
                   </ListGroup.Item>
                 </ListGroup>
               </Card.Body>
@@ -147,7 +165,7 @@ export default function Profile() {
                     <Form.Control type="email" value={email} readOnly />
                   </Form.Group>
                   <Form.Group controlId="formPhone">
-                    <Form.Label>Phone</Form.Label>
+                    <Form.Label>Phone number</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Enter your phone number"
@@ -260,5 +278,6 @@ export default function Profile() {
         </Alert>
       )}
     </Container>
+    </>
   );
 }

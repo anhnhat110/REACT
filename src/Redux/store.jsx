@@ -5,9 +5,6 @@ import cartSlice from "./cartSlice";
 import wishlistSlice from "./wishlistSlice";
 import changeSlice from "./changeSlice";
 
-
-
-
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,

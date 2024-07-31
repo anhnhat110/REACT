@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { checkAuthStatus } from "./Redux/authSlice";
 import { useEffect } from "react";
 import Profile from "./Profile/Profile";
+import Footer from "./Component/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,11 +44,11 @@ function App() {
         <Route path="/shoppingcart" element={<ShoppingCart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/success=true" element={<OrderSuccess />} />
-
         <Route path="/register" element={<Register />} />
         <Route path="/search" element={<SearchResults />} />
       </Routes>
       <ToastContainer />
+      <Footer/>
     </Router>
   );
 }

@@ -23,14 +23,14 @@ export const cartSlice = createSlice({
       } else {
         state.cartItems.push({ id, name, image, size, price, quantity });
       }
-      // Cập nhật localStorage
+
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
       toast.success("Added to cart");
     },
     removeFromCart: (state, action) => {
       const { id, size } = action.payload;
       state.cartItems = state.cartItems.filter(item => !(item.id === id && item.size === size));
-      // Cập nhật localStorage
+
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
       toast.error("Removed from cart");
     },
@@ -39,7 +39,7 @@ export const cartSlice = createSlice({
       const itemToUpdate = state.cartItems.find(item => item.id === id && item.size === size);
       if (itemToUpdate) {
         itemToUpdate.quantity = quantity;
-        // Cập nhật localStorage
+
         localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
         toast.info("Updated successfull")
       }
