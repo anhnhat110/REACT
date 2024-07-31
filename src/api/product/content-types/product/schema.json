@@ -21,42 +21,48 @@
         "files",
         "videos",
         "audios"
-      ]
+      ],
+      "pluginOptions": {}
     },
     "name": {
       "type": "string",
       "required": true,
       "maxLength": 99,
-      "minLength": 1
+      "minLength": 1,
+      "pluginOptions": {}
     },
     "price": {
       "type": "biginteger",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "quantity": {
       "type": "integer",
       "max": 50,
       "min": 1,
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "size": {
       "type": "json",
-      "required": true
-    },
-    "color": {
-      "type": "json",
-      "required": true
-    },
-    "liked": {
-      "type": "boolean",
-      "default": false,
-      "required": false
+      "required": true,
+      "pluginOptions": {}
     },
     "categories": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::category.category",
       "mappedBy": "products"
+    },
+    "types": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::type.type",
+      "inversedBy": "products"
+    },
+    "description": {
+      "type": "text",
+      "required": true
     }
   }
 }

@@ -742,7 +742,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -771,6 +770,13 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    name: Attribute.String;
+    birthday: Attribute.Date;
+    phone: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 10;
+        maxLength: 10;
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -784,46 +790,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiBoyBoy extends Schema.CollectionType {
-  collectionName: 'boys';
-  info: {
-    singularName: 'boy';
-    pluralName: 'boys';
-    displayName: 'Boy';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
-      Attribute.Required;
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 1;
-        maxLength: 100;
-      }>;
-    price: Attribute.Float &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 999999;
-        },
-        number
-      >;
-    liked: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::boy.boy', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::boy.boy', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -869,137 +835,35 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
-export interface ApiGirlGirl extends Schema.CollectionType {
-  collectionName: 'girls';
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
   info: {
-    singularName: 'girl';
-    pluralName: 'girls';
-    displayName: 'Girl';
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'order';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
-      Attribute.Required;
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 1;
-        maxLength: 99;
-      }>;
-    price: Attribute.Float &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 999999;
-        },
-        number
-      >;
-    liked: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::girl.girl', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::girl.girl', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiHomemanHomeman extends Schema.CollectionType {
-  collectionName: 'homemen';
-  info: {
-    singularName: 'homeman';
-    pluralName: 'homemen';
-    displayName: 'homeman';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
-      Attribute.Required;
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 1;
-        maxLength: 99;
-      }>;
-    price: Attribute.BigInteger &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: '1';
-          max: '99999999';
-        },
-        string
-      >;
-    liked: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-    quantity: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 50;
-        },
-        number
-      >;
-    size: Attribute.JSON & Attribute.Required;
-    color: Attribute.JSON & Attribute.Required;
-    description: Attribute.Text;
+    stripeID: Attribute.String;
+    products: Attribute.JSON;
+    username: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::homeman.homeman',
+      'api::order.order',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::homeman.homeman',
+      'api::order.order',
       'oneToOne',
       'admin::user'
     > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiManMan extends Schema.CollectionType {
-  collectionName: 'men';
-  info: {
-    singularName: 'man';
-    pluralName: 'men';
-    displayName: 'Men';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
-      Attribute.Required;
-    name: Attribute.String & Attribute.Required;
-    price: Attribute.Float &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 999000;
-        },
-        number
-      >;
-    liked: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::man.man', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::man.man', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -1035,13 +899,17 @@ export interface ApiProductProduct extends Schema.CollectionType {
         number
       >;
     size: Attribute.JSON & Attribute.Required;
-    color: Attribute.JSON & Attribute.Required;
-    liked: Attribute.Boolean & Attribute.DefaultTo<false>;
     categories: Attribute.Relation<
       'api::product.product',
       'manyToMany',
       'api::category.category'
     >;
+    types: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::type.type'
+    >;
+    description: Attribute.Text & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1060,50 +928,30 @@ export interface ApiProductProduct extends Schema.CollectionType {
   };
 }
 
-export interface ApiWomanWoman extends Schema.CollectionType {
-  collectionName: 'women';
+export interface ApiTypeType extends Schema.CollectionType {
+  collectionName: 'types';
   info: {
-    singularName: 'woman';
-    pluralName: 'women';
-    displayName: 'Woman';
+    singularName: 'type';
+    pluralName: 'types';
+    displayName: 'Type';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
-      Attribute.Required;
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 1;
-        maxLength: 50;
-      }>;
-    price: Attribute.Float &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 999999999;
-        },
-        number
-      >;
-    liked: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+    name: Attribute.String & Attribute.Required;
+    products: Attribute.Relation<
+      'api::type.type',
+      'manyToMany',
+      'api::product.product'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::woman.woman',
-      'oneToOne',
-      'admin::user'
-    > &
+    createdBy: Attribute.Relation<'api::type.type', 'oneToOne', 'admin::user'> &
       Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::woman.woman',
-      'oneToOne',
-      'admin::user'
-    > &
+    updatedBy: Attribute.Relation<'api::type.type', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -1126,13 +974,10 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::boy.boy': ApiBoyBoy;
       'api::category.category': ApiCategoryCategory;
-      'api::girl.girl': ApiGirlGirl;
-      'api::homeman.homeman': ApiHomemanHomeman;
-      'api::man.man': ApiManMan;
+      'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
-      'api::woman.woman': ApiWomanWoman;
+      'api::type.type': ApiTypeType;
     }
   }
 }

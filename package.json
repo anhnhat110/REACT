@@ -14,11 +14,14 @@
     "@strapi/plugin-i18n": "4.24.5",
     "@strapi/plugin-users-permissions": "4.24.5",
     "@strapi/strapi": "4.24.5",
+    "@stripe/react-stripe-js": "^2.7.2",
+    "@stripe/stripe-js": "^4.0.0",
     "better-sqlite3": "8.6.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "5.3.4",
     "strapi-plugin-meilisearch": "^0.12.0",
+    "stripe": "^16.1.0",
     "styled-components": "5.3.3"
   },
   "author": {

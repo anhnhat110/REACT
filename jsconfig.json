@@ -5,6 +5,6 @@
     "checkJs": true,
     "allowJs": true
   },
-  "include": ["./src/**/*.js"],  // Include all JavaScript files in the "src" directory
+  "include": ["./src/**/*.js", "src/api/order/controllers/order.jsx"],  // Include all JavaScript files in the "src" directory
   "exclude": ["node_modules"]    // Exclude the "node_modules" directory
 }
