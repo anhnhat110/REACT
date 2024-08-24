@@ -1,0 +1,48 @@
+/* File Game.css */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+  }
+  
+  .header {
+    padding: 20px;
+  }
+  
+  .timer-container {
+    padding: 5px;
+    text-align:justify;
+  }
+  
+  .circle-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid black; /* Border for visibility */
+  }
+  
+  .error-message {
+    color: red;
+  }
+  .win-message {
+    color: green;
+  }
+  
+  .button-container {
+    padding: 5px;
+    text-align: justify;
+  }
+  .point-container {
+    padding: 5px;
+    text-align: justify;
+  }
+  .title-container {
+    text-align: center;
+    padding: 5px;
+    font-size: 30px;
+    font-style: italic  ;
+    font-weight: bold;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+  }
